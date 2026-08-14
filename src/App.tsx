@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardScreen from '@/screens/DashboardScreen';
 import UploadScreen from '@/screens/UploadScreen';
 import RunProgressScreen from '@/screens/RunProgressScreen';
@@ -13,6 +13,23 @@ export default function App() {
   const [currentView, setCurrentView] = useState<'dashboard' | 'upload' | 'progress' | 'report' | 'cost'>('dashboard');
   const [activeRunId, setActiveRunIdState] = useState<string | null>(null);
   const [reportData, setReportData] = useState<Report | null>(null);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    return localStorage.getItem('cie-theme') === 'dark';
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('cie-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('cie-theme', 'light');
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
+  };
 
   const handleRunStarted = (runId: string) => {
     setActiveRunIdState(runId);
@@ -68,6 +85,8 @@ export default function App() {
         onNavigate={handleNavigate}
         activeRunId={activeRunId}
         trustScore={reportData?.trust_score}
+        darkMode={darkMode}
+        onToggleDarkMode={toggleDarkMode}
       />
 
       {/* Main Screen Views */}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, ShieldCheck, FileText, BarChart2, DollarSign, LayoutDashboard } from "lucide-react";
+import { Menu, X, ShieldCheck, FileText, BarChart2, DollarSign, LayoutDashboard, Sun, Moon } from "lucide-react";
 import { HighlighterTick } from "./Layout";
 
 interface NavBarProps {
@@ -7,9 +7,11 @@ interface NavBarProps {
   onNavigate: (view: "dashboard" | "upload" | "progress" | "report" | "cost") => void;
   activeRunId: string | null;
   trustScore?: number | null;
+  darkMode: boolean;
+  onToggleDarkMode: () => void;
 }
 
-export function NavBar({ currentView, onNavigate, activeRunId, trustScore }: NavBarProps) {
+export function NavBar({ currentView, onNavigate, activeRunId, trustScore, darkMode, onToggleDarkMode }: NavBarProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -112,17 +114,36 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore }: Nav
               <span>Cost Ledger</span>
             </button>
           )}
+
+          {/* LIGHT / DARK MODE TOGGLE BUTTON */}
+          <button
+            onClick={onToggleDarkMode}
+            title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            className="ml-3 flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] text-[var(--ink)] hover:border-[var(--plum)] hover:bg-[var(--paper)] transition-all shadow-xs"
+          >
+            {darkMode ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} className="text-[var(--plum)]" />}
+          </button>
         </div>
 
-        <button
-          type="button"
-          className="md:hidden text-[var(--ink)] p-2"
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={onToggleDarkMode}
+            title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] text-[var(--ink)]"
+          >
+            {darkMode ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} className="text-[var(--plum)]" />}
+          </button>
+
+          <button
+            type="button"
+            className="text-[var(--ink)] p-2"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       {open && (

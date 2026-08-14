@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 /*
- * Citation Integrity Engine — "Annotated Manuscript" design system.
- * Paper tones + highlighter verdict accents + a single plum UI accent.
+ * Citation Integrity Engine — Design System
+ * Deep Velvet Violet Palette + Full Dark Mode Theme Support
  */
 
 :root {
@@ -13,30 +13,56 @@
   --radius-lg: 10px;
   --radius-xl: 14px;
 
+  /* Light Mode Paper Tones */
   --paper: #fbf8f2;
   --paper-dim: #f2eee4;
-  --paper-deep: #e8e2d4;
-  --ink: #232323;
-  --ink-faint: #6b675f;
+  --paper-deep: #e4decb;
+  --ink: #1a181c;
+  --ink-faint: #5a5660;
 
-  --hl-entails: #7fa65c;
-  --hl-entails-wash: #eaf1e1;
-  --hl-partial: #d9a441;
-  --hl-partial-wash: #fbf0dc;
-  --hl-contradicts: #c25b4a;
-  --hl-contradicts-wash: #f7e4df;
-  --hl-unaddressed: #8a8680;
-  --hl-unaddressed-wash: #edece8;
+  /* Verdict Colors */
+  --hl-entails: #2e7d32;
+  --hl-entails-wash: #e8f5e9;
+  --hl-partial: #d97706;
+  --hl-partial-wash: #fffbeb;
+  --hl-contradicts: #dc2626;
+  --hl-contradicts-wash: #fef2f2;
+  --hl-unaddressed: #64748b;
+  --hl-unaddressed-wash: #f1f5f9;
 
-  --plum: #6c4f7a;
-  --plum-deep: #4e3959;
-  --plum-wash: #efe7f1;
+  /* Deep Velvet Violet Accent */
+  --plum: #3b1c4e;
+  --plum-deep: #210a30;
+  --plum-wash: #ede4f5;
 
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 
   --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Dark Mode Theme Tokens */
+html.dark {
+  --paper: #0b0914;
+  --paper-dim: #131024;
+  --paper-deep: #241c3b;
+  --ink: #f3f0f8;
+  --ink-faint: #a29ab5;
+
+  --hl-entails: #4ade80;
+  --hl-entails-wash: #072a14;
+  --hl-partial: #fbbf24;
+  --hl-partial-wash: #3b1900;
+  --hl-contradicts: #f87171;
+  --hl-contradicts-wash: #380808;
+  --hl-unaddressed: #94a3b8;
+  --hl-unaddressed-wash: #1e293b;
+
+  /* Deep Royal Violet in Dark Mode */
+  --plum: #8b5cf6;
+  --plum-deep: #6d28d9;
+  --plum-wash: #2e1065;
 }
 
 * {
@@ -52,6 +78,7 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   line-height: 1.6;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 :focus-visible {
