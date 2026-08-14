@@ -1,10 +1,12 @@
 import httpx
 from typing import Dict, Any
+from backend.config import settings
 
 def fetch_pmc_passage(citation_key: str, reference_text: str) -> Dict[str, Any]:
-    """Search PubMed Central Open Access subset for cited work."""
+    """Search PubMed Central Open Access subset for cited work using NCBI Entrez API."""
     query = reference_text[:80].strip()
-    url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pmc&term={query}&retmode=json"
+    api_param = f"&api_key={settings.NCBI_API_KEY}" if settings.NCBI_API_KEY else ""
+    url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pmc&term={query}&retmode=json{api_param}"
     
     try:
         with httpx.Client(timeout=10.0) as client:
@@ -14,8 +16,8 @@ def fetch_pmc_passage(citation_key: str, reference_text: str) -> Dict[str, Any]:
                 id_list = data.get("esearchresult", {}).get("idlist", [])
                 if id_list:
                     pmc_id = id_list[0]
-                    # Fetch summary details
-                    summary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pmc&id={pmc_id}&retmode=json"
+                    # Fetch summary details with NCBI API key
+                    summary_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pmc&id={pmc_id}&retmode=json{api_param}"
                     sum_res = client.get(summary_url)
                     if sum_res.status_code == 200:
                         sum_data = sum_res.json()
@@ -25,7 +27,7 @@ def fetch_pmc_passage(citation_key: str, reference_text: str) -> Dict[str, Any]:
                             "source_title": title,
                             "source_url": f"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC{pmc_id}/",
                             "raw_source_text": title + ". Full open access text retrieved from PubMed Central.",
-                            "retrieval_method": "pmc_api",
+                            "retrieval_method": "ncbi_pmc_api",
                             "status": "found"
                         }
     except Exception as e:
@@ -35,6 +37,6 @@ def fetch_pmc_passage(citation_key: str, reference_text: str) -> Dict[str, Any]:
         "source_title": f"Source for {citation_key}",
         "source_url": "",
         "raw_source_text": "",
-        "retrieval_method": "pmc_api",
+        "retrieval_method": "ncbi_pmc_api",
         "status": "retrieval_failed"
     }
