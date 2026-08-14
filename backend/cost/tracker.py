@@ -51,20 +51,29 @@ def call_llm(model_name: str, prompt: str, node_name: str, state: dict) -> dict:
                 if res.status_code == 200:
                     data = res.json()
                     response_text = data["candidates"][0]["content"]["parts"][0]["text"]
-        elif provider in ["openai", "deepseek"] and (settings.OPENAI_API_KEY or settings.DEEPSEEK_API_KEY):
-            api_key = settings.OPENAI_API_KEY if provider == "openai" else settings.DEEPSEEK_API_KEY
-            api_base = "https://api.openai.com/v1" if provider == "openai" else "https://api.deepseek.com"
-            payload = {
-                "model": model_name,
-                "messages": [{"role": "user", "content": prompt}],
-                "response_format": {"type": "json_object"},
-                "temperature": 0.2
-            }
-            headers = {"Authorization": f"Bearer {api_key}"}
-            with httpx.Client(timeout=30.0) as client:
-                res = client.post(f"{api_base}/chat/completions", json=payload, headers=headers)
-                if res.status_code == 200:
-                    response_text = res.json()["choices"][0]["message"]["content"]
+        elif provider in ["openai", "deepseek", "agent_router"]:
+            if provider == "agent_router" and settings.AGENT_ROUTER_API_KEY:
+                api_key = settings.AGENT_ROUTER_API_KEY
+                api_base = "https://openrouter.ai/api/v1"
+            elif provider == "deepseek" and settings.DEEPSEEK_API_KEY:
+                api_key = settings.DEEPSEEK_API_KEY
+                api_base = "https://api.deepseek.com"
+            else:
+                api_key = settings.OPENAI_API_KEY
+                api_base = "https://api.openai.com/v1"
+
+            if api_key:
+                payload = {
+                    "model": model_name,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "response_format": {"type": "json_object"},
+                    "temperature": 0.2
+                }
+                headers = {"Authorization": f"Bearer {api_key}"}
+                with httpx.Client(timeout=30.0) as client:
+                    res = client.post(f"{api_base}/chat/completions", json=payload, headers=headers)
+                    if res.status_code == 200:
+                        response_text = res.json()["choices"][0]["message"]["content"]
     except Exception as e:
         print(f"API call failed for node {node_name} ({e}), falling back to internal heuristics.")
 
@@ -94,7 +103,6 @@ def call_llm(model_name: str, prompt: str, node_name: str, state: dict) -> dict:
 def _generate_heuristic_response(node_name: str, prompt: str) -> str:
     """Generate realistic mock outputs for tests and demo resilience."""
     if node_name == "claim_extractor":
-        # Extract candidate text from prompt
         return json.dumps({
             "claims": [
                 {

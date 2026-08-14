@@ -5,8 +5,14 @@ load_dotenv()
 
 class Settings:
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    AGENT_ROUTER_API_KEY: str = os.getenv("AGENT_ROUTER_API_KEY", os.getenv("OPENROUTER_API_KEY", ""))
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     DEEPSEEK_API_KEY: str = os.getenv("DEEPSEEK_API_KEY", "")
+    
+    # Research specific API keys (Optional for high-rate retrieval)
+    NCBI_API_KEY: str = os.getenv("NCBI_API_KEY", "")
+    SEMANTIC_SCHOLAR_API_KEY: str = os.getenv("SEMANTIC_SCHOLAR_API_KEY", "")
+    TAVILY_API_KEY: str = os.getenv("TAVILY_API_KEY", "")
     
     # Auto-select provider based on available keys if not explicitly set
     @property
@@ -16,6 +22,8 @@ class Settings:
             return provider.lower()
         if self.OPENAI_API_KEY:
             return "openai"
+        if self.AGENT_ROUTER_API_KEY:
+            return "agent_router"
         if self.GEMINI_API_KEY:
             return "gemini"
         if self.DEEPSEEK_API_KEY:
@@ -24,16 +32,22 @@ class Settings:
 
     @property
     def CRITIC_MODEL_NAME(self) -> str:
+        if self.MODEL_PROVIDER == "agent_router":
+            return os.getenv("CRITIC_MODEL_NAME", "openai/gpt-4o")
         default = "gpt-4o" if self.MODEL_PROVIDER == "openai" else "gemini-1.5-pro"
         return os.getenv("CRITIC_MODEL_NAME", default)
 
     @property
     def REDTEAM_MODEL_NAME(self) -> str:
+        if self.MODEL_PROVIDER == "agent_router":
+            return os.getenv("REDTEAM_MODEL_NAME", "openai/gpt-4o")
         default = "gpt-4o" if self.MODEL_PROVIDER == "openai" else "gemini-1.5-pro"
         return os.getenv("REDTEAM_MODEL_NAME", default)
 
     @property
     def UTILITY_MODEL_NAME(self) -> str:
+        if self.MODEL_PROVIDER == "agent_router":
+            return os.getenv("UTILITY_MODEL_NAME", "openai/gpt-4o-mini")
         default = "gpt-4o-mini" if self.MODEL_PROVIDER == "openai" else "gemini-1.5-flash"
         return os.getenv("UTILITY_MODEL_NAME", default)
 
