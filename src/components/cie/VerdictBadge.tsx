@@ -1,5 +1,5 @@
 import { getVerdictStyle } from "@/lib/verdict";
-import type { VerdictLabel } from "@/lib/mock-data";
+import type { VerdictLabel } from "@/api/client";
 
 export function VerdictBadge({
   label,

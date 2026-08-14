@@ -85,6 +85,7 @@ export default function App() {
         onNavigate={handleNavigate}
         activeRunId={activeRunId}
         trustScore={reportData?.trust_score}
+        hasReport={reportData !== null}
         darkMode={darkMode}
         onToggleDarkMode={toggleDarkMode}
       />
@@ -119,8 +120,9 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[var(--paper-deep)] py-6 text-center text-xs text-[var(--ink-faint)] font-mono">
-        Citation Integrity Engine (CIE) • Powered by Express Node.js & Multi-Agent Adversarial Architecture
+      <footer className="border-t border-[var(--paper-deep)] bg-[var(--paper-dim)] py-8 text-center text-xs text-[var(--ink-faint)] font-mono space-y-1">
+        <div>Citation Integrity Engine (CIE) • Multi-Agent Adversarial Verification Platform</div>
+        <div className="text-[var(--ink-faint)]/60">© {new Date().getFullYear()} CIE • Powered by Express Node.js & LangGraph</div>
       </footer>
     </div>
   );

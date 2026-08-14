@@ -7,11 +7,12 @@ interface NavBarProps {
   onNavigate: (view: "dashboard" | "upload" | "progress" | "report" | "cost") => void;
   activeRunId: string | null;
   trustScore?: number | null;
+  hasReport: boolean;
   darkMode: boolean;
   onToggleDarkMode: () => void;
 }
 
-export function NavBar({ currentView, onNavigate, activeRunId, trustScore, darkMode, onToggleDarkMode }: NavBarProps) {
+export function NavBar({ currentView, onNavigate, activeRunId, trustScore, hasReport, darkMode, onToggleDarkMode }: NavBarProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -82,7 +83,7 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore, darkM
             </button>
           )}
 
-          {currentView === "report" && (
+          {hasReport && (
             <button
               onClick={() => onNavigate("report")}
               className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -150,38 +151,38 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore, darkM
         <div className="border-t border-[var(--paper-deep)] bg-[var(--paper)] px-5 py-3 md:hidden space-y-2">
           <button
             onClick={() => { onNavigate("dashboard"); setOpen(false); }}
-            className="w-full text-left py-2 font-medium text-[var(--ink)]"
+            className={`w-full text-left py-2 font-medium flex items-center gap-2 ${currentView === 'dashboard' ? 'text-[var(--plum-deep)]' : 'text-[var(--ink)]'}`}
           >
-            Dashboard
+            <LayoutDashboard size={16} /> Dashboard
           </button>
           <button
             onClick={() => { onNavigate("upload"); setOpen(false); }}
-            className="w-full text-left py-2 font-medium text-[var(--ink)]"
+            className={`w-full text-left py-2 font-medium flex items-center gap-2 ${currentView === 'upload' ? 'text-[var(--plum-deep)]' : 'text-[var(--ink)]'}`}
           >
-            Verify Paper
+            <FileText size={16} /> Verify Paper
           </button>
           {activeRunId && (
             <button
               onClick={() => { onNavigate("progress"); setOpen(false); }}
-              className="w-full text-left py-2 font-medium text-[var(--ink)]"
+              className={`w-full text-left py-2 font-medium flex items-center gap-2 ${currentView === 'progress' ? 'text-[var(--plum-deep)]' : 'text-[var(--ink)]'}`}
             >
-              Live Run Trace
+              <BarChart2 size={16} /> Live Run Trace
             </button>
           )}
-          {currentView === "report" && (
+          {hasReport && (
             <button
               onClick={() => { onNavigate("report"); setOpen(false); }}
-              className="w-full text-left py-2 font-medium text-[var(--ink)]"
+              className={`w-full text-left py-2 font-medium flex items-center gap-2 ${currentView === 'report' ? 'text-[var(--plum-deep)]' : 'text-[var(--ink)]'}`}
             >
-              Trust Report
+              <BarChart2 size={16} /> Trust Report
             </button>
           )}
           {activeRunId && (
             <button
               onClick={() => { onNavigate("cost"); setOpen(false); }}
-              className="w-full text-left py-2 font-medium text-[var(--ink)]"
+              className={`w-full text-left py-2 font-medium flex items-center gap-2 ${currentView === 'cost' ? 'text-[var(--plum-deep)]' : 'text-[var(--ink)]'}`}
             >
-              Cost Ledger
+              <DollarSign size={16} /> Cost Ledger
             </button>
           )}
         </div>

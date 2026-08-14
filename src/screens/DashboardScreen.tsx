@@ -25,7 +25,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
         <AnimatedReveal direction="down" delay={0}>
           <div className="rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] px-5 py-2.5 flex items-center justify-between text-xs font-mono text-[var(--ink-faint)] shadow-xs">
             <div className="flex items-center gap-3 shrink-0">
-              <span className="flex h-2.5 w-2.5 rounded-full bg-[#3fb950] animate-ping" />
+              <span className="flex h-2.5 w-2.5 rounded-full bg-[var(--hl-entails)] animate-ping" />
               <span className="font-semibold text-[var(--plum-deep)] uppercase tracking-wider">LIVE ENGINE STATUS</span>
             </div>
 
@@ -55,7 +55,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               style={{ transform: `translateY(${scrollY * 0.12}px)` }}
             />
             <div
-              className="absolute -left-20 -bottom-20 h-96 w-96 rounded-full bg-[#3fb950]/15 blur-3xl pointer-events-none transition-transform duration-100 ease-out"
+              className="absolute -left-20 -bottom-20 h-96 w-96 rounded-full bg-[var(--hl-entails)]/15 blur-3xl pointer-events-none transition-transform duration-100 ease-out"
               style={{ transform: `translateY(-${scrollY * 0.08}px)` }}
             />
 
@@ -111,16 +111,16 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                       <Cpu size={16} className="text-[var(--plum)]" />
                       <span>Adversarial Consensus Hub</span>
                     </div>
-                    <span className="rounded-full bg-[#3fb950]/15 px-2.5 py-0.5 font-mono text-[10px] font-bold text-[#2b7a36]">
+                    <span className="rounded-full bg-[var(--hl-entails)]/15 px-2.5 py-0.5 font-mono text-[10px] font-bold text-[var(--hl-entails)]">
                       94.2% TRUST
                     </span>
                   </div>
 
                   {/* Interactive Floating Agent Pills */}
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between rounded-2xl border border-[#3fb950]/40 bg-[#3fb950]/10 p-3 text-xs shadow-xs">
+                    <div className="flex items-center justify-between rounded-2xl border border-[var(--hl-entails)]/40 bg-[var(--hl-entails)]/10 p-3 text-xs shadow-xs">
                       <div className="flex items-center gap-2.5">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#3fb950] text-white">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--hl-entails)] text-white">
                           <Check size={14} />
                         </div>
                         <div>
@@ -128,7 +128,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                           <span className="text-[10px] font-mono text-[var(--ink-faint)]">Passage Entailment Confirmed</span>
                         </div>
                       </div>
-                      <span className="font-mono text-[11px] font-bold text-[#2b7a36]">96% Match</span>
+                      <span className="font-mono text-[11px] font-bold text-[var(--hl-entails)]">96% Match</span>
                     </div>
 
                     <div className="flex items-center justify-between rounded-2xl border border-[var(--hl-partial)]/40 bg-[var(--hl-partial-wash)] p-3 text-xs shadow-xs">
@@ -165,7 +165,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                     </span>
                     <p className="font-serif italic text-[11px] leading-relaxed text-[var(--ink)]">
                       "We show that pre-trained visual-language representations attain{' '}
-                      <span className="bg-[#eaf1e1] text-[#2b7a36] font-semibold px-1 rounded border-b-2 border-[#7fa65c]">
+                      <span className="bg-[var(--hl-entails-wash)] text-[var(--hl-entails)] font-semibold px-1 rounded border-b-2 border-[var(--hl-entails)]">
                         76.2% zero-shot top-1 accuracy on ImageNet
                       </span>
                       , matching original supervised models."
@@ -181,8 +181,8 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
         </AnimatedReveal>
 
         {/* 3. PLATFORM PERFORMANCE STATS (4 EQUAL COLUMNS BANNER) */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <AnimatedReveal direction="up" delay={150}>
+        <AnimatedReveal direction="up" delay={150}>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all text-center">
               <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--ink)] block">
                 4,850+
@@ -191,9 +191,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                 Papers Evaluated
               </span>
             </div>
-          </AnimatedReveal>
 
-          <AnimatedReveal direction="up" delay={250}>
             <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all text-center">
               <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--hl-entails)] block">
                 94.2%
@@ -202,9 +200,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                 Trust Accuracy
               </span>
             </div>
-          </AnimatedReveal>
 
-          <AnimatedReveal direction="up" delay={350}>
             <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all text-center">
               <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--ink)] block">
                 18,400+
@@ -213,9 +209,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                 Claims Verified
               </span>
             </div>
-          </AnimatedReveal>
 
-          <AnimatedReveal direction="up" delay={450}>
             <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all text-center">
               <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--plum-deep)] block">
                 &lt; 15s
@@ -224,10 +218,11 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                 Pipeline Speed
               </span>
             </div>
-          </AnimatedReveal>
-        </div>
+          </div>
+        </AnimatedReveal>
 
         {/* 4. SPLIT 2-COLUMN DETAILS SECTION (6 COLS PIPELINE FLOW | 6 COLS FEATURE CARDS) */}
+        <AnimatedReveal direction="up" delay={200}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
           
           {/* LEFT 6 COLS: LangGraph Multi-Agent Pipeline */}
@@ -242,7 +237,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                 </h2>
               </div>
               <span className="flex items-center gap-1.5 font-mono text-xs text-[var(--ink-faint)]">
-                <Activity size={14} className="text-[#3fb950] animate-ping" />
+                <Activity size={14} className="text-[var(--hl-entails)] animate-ping" />
                 Live Node State
               </span>
             </div>
@@ -332,6 +327,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
           </div>
 
         </div>
+        </AnimatedReveal>
 
         {/* 5. BOTTOM BENCHMARK PAPERS SHOWCASE (3 EQUAL COLUMNS BANNER) */}
         <AnimatedReveal direction="up" delay={200}>

@@ -47,7 +47,7 @@ export function TrustScoreGauge({ score = 0, size = 200 }: { score?: number; siz
   const c = 2 * Math.PI * r;
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+    <div className="relative flex items-center justify-center mx-auto" style={{ width: size, height: size, maxWidth: '100%' }}>
       <svg width={size} height={size} className="-rotate-90" aria-hidden="true">
         <circle
           cx={size / 2}

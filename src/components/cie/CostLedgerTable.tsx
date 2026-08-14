@@ -1,4 +1,4 @@
-import type { CostRow } from "@/lib/mock-data";
+import type { CostRow } from "@/api/client";
 
 export function CostLedgerTable({ rows, total }: { rows: CostRow[]; total: number }) {
   const max = Math.max(...rows.map((r) => r.estimated_cost_usd));

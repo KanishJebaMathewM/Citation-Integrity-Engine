@@ -71,6 +71,7 @@ html.dark {
 
 html {
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -169,6 +170,15 @@ body {
     transform 150ms ease-out,
     box-shadow 150ms ease-out,
     background-color 150ms ease-out;
+}
+
+.glass-terminal {
+  background-color: color-mix(in srgb, var(--paper-dim) 85%, transparent);
+  border-color: var(--paper-deep);
+}
+html.dark .glass-terminal {
+  background-color: color-mix(in srgb, #0d1117 90%, transparent);
+  border-color: #30363d;
 }
 
 /* ---------- motion keyframes ---------- */

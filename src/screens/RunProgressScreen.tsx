@@ -87,12 +87,12 @@ export default function RunProgressScreen({ runId, onCompleted }: RunProgressScr
         </div>
 
         {error ? (
-          <div className="rounded-xl border border-red-300 bg-red-50 p-6 text-red-800">
-            <div className="flex items-center gap-2 font-bold mb-2">
+          <div className="rounded-xl border border-[var(--hl-contradicts)]/30 bg-[var(--hl-contradicts-wash)] p-6 text-[var(--ink)]">
+            <div className="flex items-center gap-2 font-bold mb-2 text-[var(--hl-contradicts)]">
               <AlertTriangle size={20} />
               <span>Verification Run Error</span>
             </div>
-            <p className="text-sm font-mono">{error}</p>
+            <p className="text-sm font-mono text-[var(--ink)]">{error}</p>
           </div>
         ) : (
           <div className="rounded-xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-4 shadow-sm">

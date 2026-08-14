@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ClaimResult } from '@/api/client';
 import { TwoPensComparison } from '@/components/cie/TwoPensComparison';
 import { VerdictBadge } from '@/components/cie/VerdictBadge';
@@ -21,14 +21,22 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
     if (claimId) recordReview(claimId, choice);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   const criticLabel = result?.critic_verdict?.label || "UNVERIFIABLE";
   const redteamLabel = result?.redteam_verdict?.label || "UNVERIFIABLE";
   const criticConfidence = typeof result?.critic_verdict?.confidence === 'number' ? result.critic_verdict.confidence : 0;
   const redteamConfidence = typeof result?.redteam_verdict?.confidence === 'number' ? result.redteam_verdict.confidence : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-rise">
-      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl border border-[var(--paper-deep)] bg-[var(--paper)] p-6 shadow-2xl space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-rise" onClick={onClose}>
+      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl border border-[var(--paper-deep)] bg-[var(--paper)] p-6 shadow-2xl space-y-6" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-start justify-between border-b border-[var(--paper-deep)] pb-4">
           <div>

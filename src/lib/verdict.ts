@@ -1,4 +1,4 @@
-import type { VerdictLabel, Resolution } from "./mock-data";
+import type { VerdictLabel, Resolution } from "@/api/client";
 
 export type VerdictStyle = {
   stroke: string;
