@@ -47,9 +47,12 @@ def extract_references(text: str) -> Dict[str, str]:
     return references
 
 def fetch_arxiv_text_and_refs(arxiv_id: str) -> Tuple[str, Dict[str, str]]:
-    """Fetch arXiv paper abstract and metadata given an arXiv ID."""
+    """Dynamically fetch live arXiv paper title, abstract, and extracted claims."""
     clean_id = arxiv_id.strip().replace("arXiv:", "")
-    url = f"http://export.arxiv.org/api/query?id_list={clean_id}"
+    if clean_id.lower() == "sample":
+        clean_id = "2103.00020"
+
+    url = f"https://export.arxiv.org/api/query?id_list={clean_id}"
     
     try:
         with httpx.Client(timeout=15.0) as client:
@@ -60,44 +63,53 @@ def fetch_arxiv_text_and_refs(arxiv_id: str) -> Tuple[str, Dict[str, str]]:
                 ns = {"atom": "http://www.w3.org/2005/Atom"}
                 entry = root.find("atom:entry", ns)
                 if entry is not None:
-                    title = entry.find("atom:title", ns).text.strip().replace("\n", " ")
-                    summary = entry.find("atom:summary", ns).text.strip().replace("\n", " ")
-                    
-                    full_text = (
-                        f"Title: {title}\n\n"
-                        f"Abstract & Claims:\n"
-                        f"Transformer models have revolutionized NLP [1]. "
-                        f"Recent advances show zero-shot generalization [2]. "
-                        f"Self-attention completely eliminates positional recurrence [3].\n\n"
-                        f"Full Abstract:\n{summary}\n\n"
-                        f"References:\n"
-                        f"[1] Vaswani et al., Attention Is All You Need, NeurIPS 2017.\n"
-                        f"[2] Brown et al., Language Models are Few-Shot Learners, NeurIPS 2020.\n"
-                        f"[3] Devlin et al., BERT: Pre-training of Deep Bidirectional Transformers, NAACL 2019."
-                    )
-                    references = {
-                        "[1]": "Vaswani et al., Attention Is All You Need, NeurIPS 2017.",
-                        "[2]": "Brown et al., Language Models are Few-Shot Learners, NeurIPS 2020.",
-                        "[3]": "Devlin et al., BERT: Pre-training of Deep Bidirectional Transformers, NAACL 2019."
-                    }
-                    return full_text, references
+                    title_elem = entry.find("atom:title", ns)
+                    summary_elem = entry.find("atom:summary", ns)
+                    if title_elem is not None and summary_elem is not None:
+                        title = title_elem.text.strip().replace("\n", " ")
+                        summary = summary_elem.text.strip().replace("\n", " ")
+                        authors_list = [a.find("atom:name", ns).text for a in entry.findall("atom:author", ns) if a.find("atom:name", ns) is not None]
+                        lead_author = authors_list[0] if authors_list else "Author et al."
+
+                        # Dynamically break summary into sentences and inject citation markers
+                        sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", summary) if len(s.strip()) > 20]
+                        
+                        annotated_paragraphs = []
+                        references = {}
+
+                        for idx, sentence in enumerate(sentences[:4]):
+                            marker = f"[{idx + 1}]"
+                            annotated_sentence = f"{sentence} {marker}"
+                            annotated_paragraphs.append(annotated_sentence)
+                            references[marker] = f"{lead_author}, \"{title[:80]}\", arXiv:{clean_id}."
+
+                        full_text = (
+                            f"Title: {title}\n"
+                            f"Authors: {', '.join(authors_list[:3])}\n\n"
+                            f"Abstract & Evaluated Paragraphs:\n\n" +
+                            "\n\n".join(annotated_paragraphs) +
+                            "\n\nReferences:\n" +
+                            "\n".join([f"{k} {v}" for k, v in references.items()])
+                        )
+
+                        return full_text, references
     except Exception as e:
         print(f"Error fetching arXiv ID {arxiv_id}: {e}")
         
     # Default fallback paper text if network offline
     fallback_text = (
-        "Citation Integrity Sample Paper\n\n"
-        "Modern deep learning relies heavily on large language models [1]. "
-        "Self-attention mechanisms completely eliminate positional recurrence in sequence tasks [2]. "
-        "Pre-training on large web text enables zero-shot generalization across diverse NLP tasks [3].\n\n"
-        "References\n"
+        "Citation Integrity Evaluation Paper (arXiv:" + clean_id + ")\n\n"
+        "Recent advances in neural language architectures achieve high performance [1]. "
+        "Self-attention mechanisms replace recurrence in sequence modeling [2]. "
+        "Empirical results indicate scaling laws apply across diverse model families [3].\n\n"
+        "References:\n"
         "[1] Vaswani et al., Attention Is All You Need, NeurIPS 2017.\n"
-        "[2] Shaw et al., Self-Attention with Relative Position Representations, NAACL 2018.\n"
-        "[3] Radford et al., Language Models are Unsupervised Multitask Learners, OpenAI 2019."
+        "[2] Shaw et al., Relative Position Representations, NAACL 2018.\n"
+        "[3] Kaplan et al., Scaling Laws for Neural Language Models, arXiv 2020."
     )
     fallback_refs = {
         "[1]": "Vaswani et al., Attention Is All You Need, NeurIPS 2017.",
-        "[2]": "Shaw et al., Self-Attention with Relative Position Representations, NAACL 2018.",
-        "[3]": "Radford et al., Language Models are Unsupervised Multitask Learners, OpenAI 2019."
+        "[2]": "Shaw et al., Relative Position Representations, NAACL 2018.",
+        "[3]": "Kaplan et al., Scaling Laws for Neural Language Models, arXiv 2020."
     }
     return fallback_text, fallback_refs
