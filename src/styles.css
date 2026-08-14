@@ -94,8 +94,15 @@ body {
 }
 
 .manuscript {
-  max-width: 760px;
+  max-width: 900px;
   margin-inline: auto;
+  line-height: 1.6;
+}
+
+.manuscript-full {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
   line-height: 1.6;
 }
 
