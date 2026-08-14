@@ -4,15 +4,39 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Settings:
-    MODEL_PROVIDER: str = os.getenv("MODEL_PROVIDER", "gemini")
-    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     DEEPSEEK_API_KEY: str = os.getenv("DEEPSEEK_API_KEY", "")
     
-    CRITIC_MODEL_NAME: str = os.getenv("CRITIC_MODEL_NAME", "gemini-1.5-pro")
-    REDTEAM_MODEL_NAME: str = os.getenv("REDTEAM_MODEL_NAME", "gemini-1.5-pro")
-    UTILITY_MODEL_NAME: str = os.getenv("UTILITY_MODEL_NAME", "gemini-1.5-flash")
-    
+    # Auto-select provider based on available keys if not explicitly set
+    @property
+    def MODEL_PROVIDER(self) -> str:
+        provider = os.getenv("MODEL_PROVIDER", "")
+        if provider:
+            return provider.lower()
+        if self.OPENAI_API_KEY:
+            return "openai"
+        if self.GEMINI_API_KEY:
+            return "gemini"
+        if self.DEEPSEEK_API_KEY:
+            return "deepseek"
+        return "openai"
+
+    @property
+    def CRITIC_MODEL_NAME(self) -> str:
+        default = "gpt-4o" if self.MODEL_PROVIDER == "openai" else "gemini-1.5-pro"
+        return os.getenv("CRITIC_MODEL_NAME", default)
+
+    @property
+    def REDTEAM_MODEL_NAME(self) -> str:
+        default = "gpt-4o" if self.MODEL_PROVIDER == "openai" else "gemini-1.5-pro"
+        return os.getenv("REDTEAM_MODEL_NAME", default)
+
+    @property
+    def UTILITY_MODEL_NAME(self) -> str:
+        default = "gpt-4o-mini" if self.MODEL_PROVIDER == "openai" else "gemini-1.5-flash"
+        return os.getenv("UTILITY_MODEL_NAME", default)
+
     ARXIV_API_BASE: str = os.getenv("ARXIV_API_BASE", "http://export.arxiv.org/api/query")
     PMC_API_BASE: str = os.getenv("PMC_API_BASE", "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi")
     

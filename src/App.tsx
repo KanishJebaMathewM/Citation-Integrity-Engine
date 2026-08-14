@@ -6,6 +6,7 @@ import CostBreakdownScreen from '@/screens/CostBreakdownScreen';
 import { NavBar } from '@/components/cie/NavBar';
 import { getReport, Report } from '@/api/client';
 import { setActiveRun } from '@/lib/run-store';
+import { Toaster } from 'sonner';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'upload' | 'progress' | 'report' | 'cost'>('upload');
@@ -41,6 +42,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--paper)] text-[var(--ink)] selection:bg-[var(--plum-wash)] selection:text-[var(--plum-deep)]">
+      {/* Sonner Toast Notification System */}
+      <Toaster position="top-right" richColors />
+
       {/* Top Header Navigation Bar */}
       <NavBar
         currentView={currentView}
