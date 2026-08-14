@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Menu, X, ShieldCheck, FileText, BarChart2, DollarSign } from "lucide-react";
+import { Menu, X, ShieldCheck, FileText, BarChart2, DollarSign, LayoutDashboard } from "lucide-react";
 import { HighlighterTick } from "./Layout";
 
 interface NavBarProps {
-  currentView: "upload" | "progress" | "report" | "cost";
-  onNavigate: (view: "upload" | "progress" | "report" | "cost") => void;
+  currentView: "dashboard" | "upload" | "progress" | "report" | "cost";
+  onNavigate: (view: "dashboard" | "upload" | "progress" | "report" | "cost") => void;
   activeRunId: string | null;
   trustScore?: number | null;
 }
@@ -19,7 +19,7 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore }: Nav
         className="mx-auto flex h-16 w-full max-w-[1160px] items-center justify-between px-5"
       >
         <button 
-          onClick={() => onNavigate("upload")}
+          onClick={() => onNavigate("dashboard")}
           className="flex items-center gap-3 text-left group"
         >
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--plum)] text-white shadow-md transition-transform group-hover:scale-105">
@@ -37,6 +37,18 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore }: Nav
         </button>
 
         <div className="hidden items-center gap-2 md:flex">
+          <button
+            onClick={() => onNavigate("dashboard")}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              currentView === "dashboard"
+                ? "bg-[var(--plum-wash)] text-[var(--plum-deep)] font-semibold"
+                : "text-[var(--ink-faint)] hover:text-[var(--ink)] hover:bg-[var(--paper-dim)]"
+            }`}
+          >
+            <LayoutDashboard size={15} />
+            <span>Dashboard</span>
+          </button>
+
           <button
             onClick={() => onNavigate("upload")}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -113,6 +125,12 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore }: Nav
 
       {open && (
         <div className="border-t border-[var(--paper-deep)] bg-[var(--paper)] px-5 py-3 md:hidden space-y-2">
+          <button
+            onClick={() => { onNavigate("dashboard"); setOpen(false); }}
+            className="w-full text-left py-2 font-medium text-[var(--ink)]"
+          >
+            Dashboard
+          </button>
           <button
             onClick={() => { onNavigate("upload"); setOpen(false); }}
             className="w-full text-left py-2 font-medium text-[var(--ink)]"
