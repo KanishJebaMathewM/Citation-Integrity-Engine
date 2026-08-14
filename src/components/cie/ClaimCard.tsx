@@ -1,4 +1,4 @@
-import type { ClaimResult } from "@/lib/mock-data";
+import type { ClaimResult } from "@/api/client";
 import { resolutionStroke } from "@/lib/verdict";
 import { VerdictBadge, StatusTag } from "./VerdictBadge";
 import { useRunStatus } from "@/lib/run-store";
@@ -11,8 +11,11 @@ export function ClaimCard({
   onOpen: () => void;
 }) {
   const { reviews } = useRunStatus();
-  const reviewed = Boolean(reviews[result.claim.id]);
-  const stroke = resolutionStroke(result.resolution, result.critic_verdict.label);
+  const claimId = result?.claim?.id || "";
+  const reviewed = Boolean(reviews[claimId]);
+  const criticLabel = result?.critic_verdict?.label || "UNVERIFIABLE";
+  const redteamLabel = result?.redteam_verdict?.label || "UNVERIFIABLE";
+  const stroke = resolutionStroke(result?.resolution, criticLabel);
 
   return (
     <button
@@ -24,18 +27,18 @@ export function ClaimCard({
       <span className="min-w-0 flex-1 py-4 pr-4">
         <span className="flex flex-wrap items-center gap-2">
           <span className="font-mono text-[0.8125rem] text-[var(--ink-faint)]">
-            {result.claim.citation_marker}
+            {result?.claim?.citation_marker || "[1]"}
           </span>
-          <span className="text-ui-label text-[var(--ink-faint)]">{result.claim.location}</span>
-          {result.resolution === "FLAGGED" && !reviewed && <StatusTag tone="flagged">flagged</StatusTag>}
+          <span className="text-ui-label text-[var(--ink-faint)]">{result?.claim?.location || "Section 1"}</span>
+          {result?.resolution === "FLAGGED" && !reviewed && <StatusTag tone="flagged">flagged</StatusTag>}
           {reviewed && <StatusTag tone="reviewed">human-reviewed</StatusTag>}
         </span>
         <span className="mt-2 line-clamp-2 block text-[1rem] leading-relaxed">
-          {result.claim.claim_text}
+          {result?.claim?.claim_text || "Unspecified claim"}
         </span>
         <span className="mt-3 flex flex-wrap items-center gap-2">
-          <VerdictBadge label={result.critic_verdict.label} size="sm" />
-          <VerdictBadge label={result.redteam_verdict.label} size="sm" />
+          <VerdictBadge label={criticLabel} size="sm" />
+          <VerdictBadge label={redteamLabel} size="sm" />
         </span>
       </span>
     </button>

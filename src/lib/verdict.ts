@@ -6,7 +6,13 @@ export type VerdictStyle = {
   label: string;
 };
 
-export const verdictStyles: Record<VerdictLabel, VerdictStyle> = {
+const defaultStyle: VerdictStyle = {
+  stroke: "var(--hl-unaddressed)",
+  wash: "var(--hl-unaddressed-wash)",
+  label: "Unverifiable",
+};
+
+export const verdictStyles: Record<string, VerdictStyle> = {
   ENTAILS: { stroke: "var(--hl-entails)", wash: "var(--hl-entails-wash)", label: "Entails" },
   PARTIAL: { stroke: "var(--hl-partial)", wash: "var(--hl-partial-wash)", label: "Partial" },
   CONTRADICTS: {
@@ -26,17 +32,24 @@ export const verdictStyles: Record<VerdictLabel, VerdictStyle> = {
   },
 };
 
-/** The edge/band color a claim card carries, derived from its resolution + verdicts. */
-export function resolutionStroke(resolution: Resolution, critic: VerdictLabel): string {
-  if (resolution === "UNVERIFIABLE") return "var(--hl-unaddressed)";
-  if (resolution === "FLAGGED") return "var(--hl-partial)";
-  return verdictStyles[critic].stroke;
+export function getVerdictStyle(label?: string): VerdictStyle {
+  if (!label) return defaultStyle;
+  const upper = String(label).toUpperCase();
+  return verdictStyles[upper] || { ...defaultStyle, label: String(label) };
 }
 
-export function scoreBand(score: number): { stroke: string; wash: string; word: string } {
-  if (score >= 85)
+/** The edge/band color a claim card carries, derived from its resolution + verdicts. */
+export function resolutionStroke(resolution?: string, critic?: string): string {
+  if (resolution === "UNVERIFIABLE") return "var(--hl-unaddressed)";
+  if (resolution === "FLAGGED") return "var(--hl-partial)";
+  return getVerdictStyle(critic).stroke;
+}
+
+export function scoreBand(score?: number): { stroke: string; wash: string; word: string } {
+  const safeScore = typeof score === "number" && !isNaN(score) ? score : 0;
+  if (safeScore >= 85)
     return { stroke: "var(--hl-entails)", wash: "var(--hl-entails-wash)", word: "holds up well" };
-  if (score >= 65)
+  if (safeScore >= 65)
     return { stroke: "var(--hl-partial)", wash: "var(--hl-partial-wash)", word: "mixed support" };
   return {
     stroke: "var(--hl-contradicts)",
@@ -45,12 +58,17 @@ export function scoreBand(score: number): { stroke: string; wash: string; word: 
   };
 }
 
-export function formatDate(iso: string): string {
-  const d = new Date(iso + "T00:00:00Z");
-  return d.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+export function formatDate(iso?: string): string {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso.includes("T") ? iso : iso + "T00:00:00Z");
+    return d.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  } catch {
+    return String(iso);
+  }
 }

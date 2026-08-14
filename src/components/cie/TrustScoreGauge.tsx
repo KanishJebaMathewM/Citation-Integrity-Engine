@@ -14,8 +14,9 @@ export function InkBloom({ color }: { color: string }) {
   );
 }
 
-export function TrustScoreGauge({ score, size = 200 }: { score: number; size?: number }) {
-  const band = scoreBand(score);
+export function TrustScoreGauge({ score = 0, size = 200 }: { score?: number; size?: number }) {
+  const safeScore = typeof score === 'number' && !isNaN(score) ? score : 0;
+  const band = scoreBand(safeScore);
   const [progress, setProgress] = useState(0);
   const [shown, setShown] = useState(0);
 
@@ -25,7 +26,7 @@ export function TrustScoreGauge({ score, size = 200 }: { score: number; size?: n
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setProgress(1);
-      setShown(score);
+      setShown(safeScore);
       return;
     }
     const start = performance.now();
@@ -35,12 +36,12 @@ export function TrustScoreGauge({ score, size = 200 }: { score: number; size?: n
       const t = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - t, 3);
       setProgress(eased);
-      setShown(Math.round(eased * score));
+      setShown(Math.round(eased * safeScore));
       if (t < 1) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [score]);
+  }, [safeScore]);
 
   const r = size / 2 - 10;
   const c = 2 * Math.PI * r;
@@ -65,11 +66,11 @@ export function TrustScoreGauge({ score, size = 200 }: { score: number; size?: n
           strokeWidth={8}
           strokeLinecap="round"
           strokeDasharray={c}
-          strokeDashoffset={c - (c * (score / 100)) * progress}
+          strokeDashoffset={c - (c * (safeScore / 100)) * progress}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        {score >= 85 && (
+        {safeScore >= 85 && (
           <div className="absolute inset-6">
             <InkBloom color={band.stroke} />
           </div>
@@ -81,13 +82,14 @@ export function TrustScoreGauge({ score, size = 200 }: { score: number; size?: n
           {shown}
         </span>
       </div>
-      <span className="sr-only">Trust score {score} out of 100 — {band.word}</span>
+      <span className="sr-only">Trust score {safeScore} out of 100 — {band.word}</span>
     </div>
   );
 }
 
-export function GaugeChip({ score }: { score: number }) {
-  const band = scoreBand(score);
+export function GaugeChip({ score = 0 }: { score?: number }) {
+  const safeScore = typeof score === 'number' && !isNaN(score) ? score : 0;
+  const band = scoreBand(safeScore);
   return (
     <span
       className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-ui-label"
@@ -104,10 +106,10 @@ export function GaugeChip({ score }: { score: number }) {
           strokeWidth="3"
           strokeLinecap="round"
           strokeDasharray={2 * Math.PI * 6}
-          strokeDashoffset={2 * Math.PI * 6 * (1 - score / 100)}
+          strokeDashoffset={2 * Math.PI * 6 * (1 - safeScore / 100)}
         />
       </svg>
-      {score}
+      {safeScore}
     </span>
   );
 }

@@ -14,11 +14,17 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
   const { reviews } = useRunStatus();
   if (!result) return null;
 
-  const currentReview = reviews[result.claim.id];
+  const claimId = result?.claim?.id || "";
+  const currentReview = reviews[claimId];
 
   const handleReview = (choice: 'critic' | 'redteam' | 'more-evidence') => {
-    recordReview(result.claim.id, choice);
+    if (claimId) recordReview(claimId, choice);
   };
+
+  const criticLabel = result?.critic_verdict?.label || "UNVERIFIABLE";
+  const redteamLabel = result?.redteam_verdict?.label || "UNVERIFIABLE";
+  const criticConfidence = typeof result?.critic_verdict?.confidence === 'number' ? result.critic_verdict.confidence : 0;
+  const redteamConfidence = typeof result?.redteam_verdict?.confidence === 'number' ? result.redteam_verdict.confidence : 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-rise">
@@ -27,7 +33,7 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
         <div className="flex items-start justify-between border-b border-[var(--paper-deep)] pb-4">
           <div>
             <span className="font-mono text-xs text-[var(--ink-faint)]">
-              Citation {result.claim.citation_marker} · {result.claim.location}
+              Citation {result?.claim?.citation_marker || "[1]"} · {result?.claim?.location || "Section 1"}
             </span>
             <h2 className="mt-1 font-[var(--font-display)] text-xl font-semibold text-[var(--ink)]">
               Claim Verification Breakdown
@@ -47,7 +53,7 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
             Claim in Manuscript
           </span>
           <p className="text-base text-[var(--ink)] leading-relaxed font-serif">
-            "{result.claim.claim_text}"
+            "{result?.claim?.claim_text || "Unspecified claim text"}"
           </p>
         </div>
 
@@ -61,13 +67,13 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
               <span className="text-xs font-semibold uppercase text-[var(--ink-faint)]">
                 Critic Agent
               </span>
-              <VerdictBadge label={result.critic_verdict.label} size="sm" />
+              <VerdictBadge label={criticLabel} size="sm" />
             </div>
             <p className="text-xs text-[var(--ink)] leading-relaxed">
-              {result.critic_verdict.justification}
+              {result?.critic_verdict?.justification || "No justification provided."}
             </p>
             <div className="text-[10px] font-mono text-[var(--ink-faint)] pt-1">
-              Confidence: {Math.round(result.critic_verdict.confidence * 100)}%
+              Confidence: {Math.round(criticConfidence * 100)}%
             </div>
           </div>
 
@@ -76,13 +82,13 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
               <span className="text-xs font-semibold uppercase text-[var(--ink-faint)]">
                 Red-Team Agent
               </span>
-              <VerdictBadge label={result.redteam_verdict.label} size="sm" />
+              <VerdictBadge label={redteamLabel} size="sm" />
             </div>
             <p className="text-xs text-[var(--ink)] leading-relaxed">
-              {result.redteam_verdict.justification}
+              {result?.redteam_verdict?.justification || "No justification provided."}
             </p>
             <div className="text-[10px] font-mono text-[var(--ink-faint)] pt-1">
-              Confidence: {Math.round(result.redteam_verdict.confidence * 100)}%
+              Confidence: {Math.round(redteamConfidence * 100)}%
             </div>
           </div>
         </div>
@@ -102,7 +108,7 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
               }`}
             >
               <Check size={14} />
-              Endorse Critic ({result.critic_verdict.label})
+              Endorse Critic ({criticLabel})
             </button>
             <button
               onClick={() => handleReview('redteam')}
@@ -113,7 +119,7 @@ export default function ClaimDetailModal({ result, onClose }: ClaimDetailModalPr
               }`}
             >
               <AlertCircle size={14} />
-              Endorse Red-Team ({result.redteam_verdict.label})
+              Endorse Red-Team ({redteamLabel})
             </button>
             <button
               onClick={() => handleReview('more-evidence')}

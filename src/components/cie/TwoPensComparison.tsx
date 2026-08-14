@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { verdictStyles } from "@/lib/verdict";
-import type { ClaimResult } from "@/lib/mock-data";
+import { getVerdictStyle } from "@/lib/verdict";
+import type { ClaimResult } from "@/api/client";
 
 /**
  * Two Pens — the product's signature highlighter draw-on.
@@ -19,10 +19,17 @@ export function TwoPensComparison({
 }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const [drawn, setDrawn] = useState(false);
-  const { matched_passage, span, status } = result.evidence;
-  const critic = verdictStyles[result.critic_verdict.label];
-  const redteam = verdictStyles[result.redteam_verdict.label];
-  const agree = result.critic_verdict.label === result.redteam_verdict.label;
+
+  const matched_passage = result?.evidence?.matched_passage || "";
+  const span = result?.evidence?.span || "";
+  const status = result?.evidence?.status || "missing";
+
+  const criticLabel = result?.critic_verdict?.label || "UNVERIFIABLE";
+  const redteamLabel = result?.redteam_verdict?.label || "UNVERIFIABLE";
+
+  const critic = getVerdictStyle(criticLabel);
+  const redteam = getVerdictStyle(redteamLabel);
+  const agree = criticLabel.toUpperCase() === redteamLabel.toUpperCase();
 
   useEffect(() => {
     setDrawn(false);
@@ -51,7 +58,7 @@ export function TwoPensComparison({
     );
   }
 
-  const idx = matched_passage.indexOf(span);
+  const idx = span ? matched_passage.indexOf(span) : -1;
   const before = idx >= 0 ? matched_passage.slice(0, idx) : matched_passage;
   const mid = idx >= 0 ? span : "";
   const after = idx >= 0 ? matched_passage.slice(idx + span.length) : "";
@@ -69,7 +76,7 @@ export function TwoPensComparison({
       <p className="text-ui-label uppercase text-[var(--ink-faint)]">Source passage</p>
       <p ref={ref} className="mt-2 text-mono-sm">
         {before}
-        {mid && (
+        {mid ? (
           <span className="relative inline">
             <span className="relative z-10">{mid}</span>
             <span
@@ -85,7 +92,7 @@ export function TwoPensComparison({
               />
             )}
           </span>
-        )}
+        ) : null}
         {after}
       </p>
       <p className="mt-5 text-sm text-[var(--ink-faint)]">

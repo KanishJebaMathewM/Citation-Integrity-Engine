@@ -1,14 +1,14 @@
-import { verdictStyles } from "@/lib/verdict";
+import { getVerdictStyle } from "@/lib/verdict";
 import type { VerdictLabel } from "@/lib/mock-data";
 
 export function VerdictBadge({
   label,
   size = "md",
 }: {
-  label: VerdictLabel;
+  label: VerdictLabel | string;
   size?: "sm" | "md";
 }) {
-  const s = verdictStyles[label];
+  const s = getVerdictStyle(label);
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full text-ui-label uppercase ${

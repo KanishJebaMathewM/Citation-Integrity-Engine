@@ -4,7 +4,7 @@ import { ManuscriptLayout, MarginRail, RailSection, PageTurn, Stagger } from '@/
 import { TrustScoreGauge } from '@/components/cie/TrustScoreGauge';
 import { ClaimCard } from '@/components/cie/ClaimCard';
 import ClaimDetailModal from './ClaimDetailModal';
-import { FileText, DollarSign, RotateCcw, Download, ShieldCheck, Filter } from 'lucide-react';
+import { DollarSign, RotateCcw, Download, Filter } from 'lucide-react';
 
 interface TrustReportScreenProps {
   report: Report | null;
@@ -29,9 +29,9 @@ export default function TrustReportScreen({ report, onShowCost, onReset }: Trust
   const claimResults = report.claim_results || [];
 
   const filteredClaims = claimResults.filter((c) => {
-    if (filter === 'FLAGGED') return c.resolution === 'FLAGGED';
-    if (filter === 'RESOLVED') return c.resolution === 'RESOLVED';
-    if (filter === 'UNVERIFIABLE') return c.resolution === 'UNVERIFIABLE';
+    if (filter === 'FLAGGED') return c?.resolution === 'FLAGGED';
+    if (filter === 'RESOLVED') return c?.resolution === 'RESOLVED';
+    if (filter === 'UNVERIFIABLE') return c?.resolution === 'UNVERIFIABLE';
     return true;
   });
 
@@ -45,31 +45,33 @@ export default function TrustReportScreen({ report, onShowCost, onReset }: Trust
     downloadAnchor.remove();
   };
 
+  const trustScore = typeof report.trust_score === 'number' ? report.trust_score : 0;
+
   return (
     <ManuscriptLayout
       rail={
         <div className="space-y-6">
           {/* Trust Score Radial Gauge */}
-          <TrustScoreGauge score={report.trust_score} />
+          <TrustScoreGauge score={trustScore} />
 
           {/* Quick Metrics */}
           <RailSection title="Verification Breakdown">
             <div className="space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-[var(--ink-faint)]">Total Claims:</span>
-                <span className="font-mono font-semibold text-[var(--ink)]">{report.total_claims}</span>
+                <span className="font-mono font-semibold text-[var(--ink)]">{report.total_claims || 0}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--ink-faint)]">Resolved (Entailed):</span>
-                <span className="font-mono font-semibold text-[var(--hl-entails)]">{report.resolved_count}</span>
+                <span className="font-mono font-semibold text-[var(--hl-entails)]">{report.resolved_count || 0}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--ink-faint)]">Flagged (Contradicts/Partial):</span>
-                <span className="font-mono font-semibold text-[var(--hl-contradicts)]">{report.flagged_count}</span>
+                <span className="font-mono font-semibold text-[var(--hl-contradicts)]">{report.flagged_count || 0}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--ink-faint)]">Unverifiable:</span>
-                <span className="font-mono font-semibold text-[var(--hl-unaddressed)]">{report.unverifiable_count}</span>
+                <span className="font-mono font-semibold text-[var(--hl-unaddressed)]">{report.unverifiable_count || 0}</span>
               </div>
             </div>
           </RailSection>
@@ -86,7 +88,7 @@ export default function TrustReportScreen({ report, onShowCost, onReset }: Trust
                   View Cost Ledger
                 </span>
                 <span className="font-mono text-[11px] text-[var(--ink-faint)]">
-                  ${report.total_cost_usd?.toFixed(4) || '0.00'}
+                  ${typeof report.total_cost_usd === 'number' ? report.total_cost_usd.toFixed(4) : '0.0000'}
                 </span>
               </button>
 
@@ -155,7 +157,7 @@ export default function TrustReportScreen({ report, onShowCost, onReset }: Trust
               </div>
             ) : (
               filteredClaims.map((claimResult, idx) => (
-                <Stagger key={claimResult.claim.id || idx} index={idx}>
+                <Stagger key={claimResult?.claim?.id || idx} index={idx}>
                   <ClaimCard
                     result={claimResult}
                     onOpen={() => setSelectedClaim(claimResult)}
