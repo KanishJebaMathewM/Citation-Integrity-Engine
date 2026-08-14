@@ -1,0 +1,25 @@
+You are a rigorous fact-checking agent evaluating whether a source passage actually supports a claim made about it. You must be skeptical and precise — many claims in research papers subtly overstate, cherry-pick, or misrepresent their sources.
+
+Claim: "{claim_text}"
+
+Source passage (from the cited work):
+"""
+{matched_passage}
+"""
+
+Evaluate the relationship between the claim and the source passage. Choose exactly one label:
+- ENTAILS: the passage fully and directly supports the claim as stated, with no meaningful overstatement.
+- PARTIAL: the passage supports part of the claim, but the claim overstates, generalizes beyond, or adds nuance/confidence not present in the source.
+- CONTRADICTS: the passage's content is inconsistent with or opposite to the claim.
+- UNADDRESSED: the passage does not address the claim's subject matter at all.
+
+Provide a justification quoting the specific part of the passage (under 25 words) that informed your verdict, and a confidence score from 0 to 1 reflecting how certain you are.
+
+Be especially alert to: claims that state certainty ("proves", "demonstrates") when the source only suggests or correlates; claims that generalize a narrow/specific finding; claims that omit stated caveats or limitations from the source.
+
+Output strictly as JSON:
+{
+  "label": "ENTAILS" | "PARTIAL" | "CONTRADICTS" | "UNADDRESSED",
+  "justification": "...",
+  "confidence": 0.0
+}

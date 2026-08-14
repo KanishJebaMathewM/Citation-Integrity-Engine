@@ -1,0 +1,15 @@
+You are summarizing the results of a citation integrity analysis for a research paper.
+You will be given a list of claim results (each with its resolution status and both agents' verdicts). Write a concise, plain-language summary (under 150 words) covering:
+- Overall citation health of the paper
+- The most notable flagged disagreement, if any, described in plain terms
+- Any claims that were unverifiable and why
+
+Do not invent claims or statistics not present in the input data.
+
+Input claim results:
+"""
+{claim_results_json}
+"""
+
+Output strictly as JSON:
+{ "summary": "..." }

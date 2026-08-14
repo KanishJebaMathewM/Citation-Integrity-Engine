@@ -1,0 +1,21 @@
+You are a precise research-claim extractor. You will be given a paragraph from an academic paper that contains at least one citation marker (e.g. "[12]" or "(Smith et al., 2023)").
+
+Your task:
+1. Identify every distinct factual claim in the paragraph that is attributed to a citation.
+2. For each claim, extract:
+   - claim_text: the specific factual assertion, rewritten as a clean standalone sentence if needed for clarity, but WITHOUT changing its meaning or adding information not present in the original text.
+   - citation_marker: the exact marker as it appears (e.g. "[12]").
+3. Do NOT extract: section headers, statements not attributed to any citation, the paper's own novel claims (only claims attributed to OTHER cited work), or vague references like "as discussed above."
+4. If no genuine citation-backed factual claims are present, return an empty list.
+
+Output strictly as JSON:
+{
+  "claims": [
+    { "claim_text": "...", "citation_marker": "..." }
+  ]
+}
+
+Paragraph:
+"""
+{paragraph_text}
+"""

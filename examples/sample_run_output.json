@@ -1,0 +1,146 @@
+{
+  "paper_id": "1706.03762",
+  "paper_title": "Attention Is All You Need",
+  "trust_score": 80.0,
+  "total_claims": 3,
+  "resolved_count": 2,
+  "flagged_count": 1,
+  "unverifiable_count": 0,
+  "summary": "The paper exhibits high citation integrity overall. 2 of 3 evaluated claims were fully verified with consensus (ENTAILS). 1 claim regarding positional recurrence was flagged for human review due to adversarial disagreement between Critic (PARTIAL) and Red-Team (CONTRADICTS) over positional encoding nuances.",
+  "claim_results": [
+    {
+      "claim": {
+        "id": "claim-01",
+        "claim_text": "Transformer architectures achieve state-of-the-art BLEU scores with significantly lower training cost.",
+        "citation_marker": "[1]",
+        "citation_key": "[1]",
+        "location": "Paragraph 1",
+        "surrounding_context": "Modern deep learning relies heavily on large language models [1]."
+      },
+      "evidence": {
+        "claim_id": "claim-01",
+        "source_title": "Attention Is All You Need",
+        "source_url": "http://arxiv.org/abs/1706.03762v7",
+        "matched_passage": "The Transformer achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over existing best results while requiring a fraction of the training cost.",
+        "retrieval_method": "arxiv_api",
+        "retrieval_confidence": 0.95,
+        "status": "found"
+      },
+      "critic_verdict": {
+        "claim_id": "claim-01",
+        "agent": "critic",
+        "label": "ENTAILS",
+        "justification": "Passage directly reports superior BLEU scores while reducing training computational footprint.",
+        "confidence": 0.92
+      },
+      "redteam_verdict": {
+        "claim_id": "claim-01",
+        "agent": "redteam",
+        "label": "ENTAILS",
+        "justification": "Passage confirms lower training time and higher translation quality.",
+        "confidence": 0.91
+      },
+      "resolution": "RESOLVED"
+    },
+    {
+      "claim": {
+        "id": "claim-02",
+        "claim_text": "Self-attention mechanisms completely eliminate positional recurrence in sequence processing.",
+        "citation_marker": "[2]",
+        "citation_key": "[2]",
+        "location": "Paragraph 2",
+        "surrounding_context": "Self-attention mechanisms completely eliminate positional recurrence [2]."
+      },
+      "evidence": {
+        "claim_id": "claim-02",
+        "source_title": "Self-Attention with Relative Position Representations",
+        "source_url": "http://arxiv.org/abs/1803.02155",
+        "matched_passage": "Self-attention replaces recurrent neural networks but requires explicit positional encodings to inject sequence order into token embeddings.",
+        "retrieval_method": "arxiv_api",
+        "retrieval_confidence": 0.88,
+        "status": "found"
+      },
+      "critic_verdict": {
+        "claim_id": "claim-02",
+        "agent": "critic",
+        "label": "PARTIAL",
+        "justification": "The source demonstrates self-attention replaces recurrence but still requires explicit positional encodings to inject sequence order.",
+        "confidence": 0.88
+      },
+      "redteam_verdict": {
+        "claim_id": "claim-02",
+        "agent": "redteam",
+        "label": "CONTRADICTS",
+        "justification": "Claim states recurrence is completely eliminated, but source explicitly uses positional embeddings to compensate for lack of sequence order.",
+        "confidence": 0.85
+      },
+      "resolution": "FLAGGED"
+    },
+    {
+      "claim": {
+        "id": "claim-03",
+        "claim_text": "Pre-training on large web text enables zero-shot generalization across diverse NLP tasks.",
+        "citation_marker": "[3]",
+        "citation_key": "[3]",
+        "location": "Paragraph 3",
+        "surrounding_context": "Pre-training on large web text enables zero-shot generalization [3]."
+      },
+      "evidence": {
+        "claim_id": "claim-03",
+        "source_title": "Language Models are Few-Shot Learners",
+        "source_url": "http://arxiv.org/abs/2005.14165",
+        "matched_passage": "We demonstrate that scaling up language models greatly improves task-agnostic, zero-shot performance across dozens of NLP benchmarks.",
+        "retrieval_method": "arxiv_api",
+        "retrieval_confidence": 0.94,
+        "status": "found"
+      },
+      "critic_verdict": {
+        "claim_id": "claim-03",
+        "agent": "critic",
+        "label": "ENTAILS",
+        "justification": "The passage confirms zero-shot task performance scales with model and pre-training dataset size.",
+        "confidence": 0.95
+      },
+      "redteam_verdict": {
+        "claim_id": "claim-03",
+        "agent": "redteam",
+        "label": "ENTAILS",
+        "justification": "Passage directly supports zero-shot generalization capabilities across task benchmarks.",
+        "confidence": 0.90
+      },
+      "resolution": "RESOLVED"
+    }
+  ],
+  "cost_log": [
+    {
+      "node": "claim_extractor",
+      "model": "gemini-1.5-flash",
+      "input_tokens": 420,
+      "output_tokens": 185,
+      "estimated_cost_usd": 0.000244
+    },
+    {
+      "node": "critic_judge",
+      "model": "gemini-1.5-pro",
+      "input_tokens": 510,
+      "output_tokens": 92,
+      "estimated_cost_usd": 0.0001965
+    },
+    {
+      "node": "redteam_judge",
+      "model": "gemini-1.5-pro",
+      "input_tokens": 490,
+      "output_tokens": 98,
+      "estimated_cost_usd": 0.000196
+    },
+    {
+      "node": "synthesizer",
+      "model": "gemini-1.5-flash",
+      "input_tokens": 680,
+      "output_tokens": 115,
+      "estimated_cost_usd": 0.000256
+    }
+  ],
+  "total_cost_usd": 0.00089,
+  "generated_at": "2026-08-14T19:00:00Z"
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+cie.db
+node_modules/
+dist/
+.venv/
+venv/
+*.pdf
+!tests/fixtures/sample_paper.pdf
