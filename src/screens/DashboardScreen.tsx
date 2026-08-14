@@ -19,11 +19,11 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
 
   return (
     <ManuscriptLayout fullWidth={true}>
-      <div className="py-2 space-y-10 overflow-hidden w-full">
+      <div className="pt-0 pb-4 space-y-5 overflow-hidden w-full">
         
         {/* LIVE STREAM TICKER MARQUEE */}
         <AnimatedReveal direction="down" delay={0}>
-          <div className="rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] px-4 py-2.5 flex items-center justify-between text-xs font-mono text-[var(--ink-faint)] overflow-hidden shadow-xs">
+          <div className="rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] px-4 py-2 flex items-center justify-between text-xs font-mono text-[var(--ink-faint)] overflow-hidden shadow-xs">
             <div className="flex items-center gap-3 shrink-0">
               <span className="flex h-2.5 w-2.5 rounded-full bg-[#3fb950] animate-ping" />
               <span className="font-semibold text-[var(--plum-deep)] uppercase tracking-wider">LIVE ENGINE STATUS</span>
@@ -46,10 +46,10 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
         </AnimatedReveal>
 
         {/* MAIN SPLIT GRID: Left Large Hero/Pipeline Panel | Right Component Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
           
           {/* LEFT SIDE: Large Featured Hero & Pipeline Box (7 Columns) */}
-          <div className="lg:col-span-7 flex flex-col justify-between rounded-3xl border border-[var(--paper-deep)] bg-gradient-to-br from-[var(--paper-dim)] via-[var(--paper)] to-[var(--plum-wash)]/60 p-8 md:p-12 shadow-xl relative overflow-hidden space-y-8">
+          <div className="lg:col-span-7 flex flex-col justify-between rounded-3xl border border-[var(--paper-deep)] bg-gradient-to-br from-[var(--paper-dim)] via-[var(--paper)] to-[var(--plum-wash)]/60 p-7 md:p-10 shadow-xl relative overflow-hidden space-y-6">
             
             {/* Scroll Parallax Background Orbs */}
             <div
@@ -61,10 +61,10 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               style={{ transform: `translateY(-${scrollY * 0.1}px)` }}
             />
 
-            <div className="relative z-10 space-y-6">
+            <div className="relative z-10 space-y-5">
               <AnimatedReveal direction="up" delay={100}>
-                <div className="inline-flex items-center gap-2.5 rounded-full border border-[var(--plum)]/30 bg-[var(--plum-wash)] px-4 py-1.5 text-xs font-mono font-medium text-[var(--plum-deep)] shadow-xs">
-                  <Sparkles size={15} className="text-[var(--plum)] animate-pulse" />
+                <div className="inline-flex items-center gap-2.5 rounded-full border border-[var(--plum)]/30 bg-[var(--plum-wash)] px-4 py-1 text-xs font-mono font-medium text-[var(--plum-deep)] shadow-xs">
+                  <Sparkles size={14} className="text-[var(--plum)] animate-pulse" />
                   <span>MULTIDISCIPLINARY MANUSCRIPT VERIFICATION ENGINE</span>
                 </div>
               </AnimatedReveal>
@@ -84,10 +84,10 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
 
               {/* Action Buttons */}
               <AnimatedReveal direction="up" delay={400}>
-                <div className="flex flex-wrap items-center gap-4 pt-4">
+                <div className="flex flex-wrap items-center gap-4 pt-2">
                   <button
                     onClick={onGetStarted}
-                    className="group flex flex-1 sm:flex-initial items-center justify-center gap-3 rounded-2xl bg-[var(--plum)] px-9 py-4.5 text-base font-semibold text-white shadow-xl hover:bg-[var(--plum-deep)] hover:scale-[1.03] active:scale-[0.98] transition-all"
+                    className="group flex flex-1 sm:flex-initial items-center justify-center gap-3 rounded-2xl bg-[var(--plum)] px-8 py-4 text-base font-semibold text-white shadow-xl hover:bg-[var(--plum-deep)] hover:scale-[1.03] active:scale-[0.98] transition-all"
                   >
                     <ShieldCheck size={22} />
                     <span>Get Started — Verify Paper</span>
@@ -107,7 +107,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
 
             {/* Embedded 5-Node Agent Execution Flow */}
             <AnimatedReveal direction="up" delay={500}>
-              <div className="relative z-10 space-y-4 border-t border-[var(--paper-deep)] pt-6">
+              <div className="relative z-10 space-y-3.5 border-t border-[var(--paper-deep)] pt-5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[var(--plum-deep)]">
                     LangGraph State Machine Flow
@@ -130,11 +130,11 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                     return (
                       <div
                         key={idx}
-                        className="group rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper)] p-3.5 text-center space-y-2 hover:border-[var(--plum)] hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col items-center justify-between"
+                        className="group rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper)] p-3 text-center space-y-1.5 hover:border-[var(--plum)] hover:shadow-lg hover:-translate-y-1 transition-all flex flex-col items-center justify-between"
                       >
                         <span className="font-mono text-[10px] text-[var(--ink-faint)] font-bold">{step.num}</span>
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--plum-wash)] text-[var(--plum-deep)] group-hover:scale-110 group-hover:bg-[var(--plum)] group-hover:text-white transition-all">
-                          <IconComp size={16} />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--plum-wash)] text-[var(--plum-deep)] group-hover:scale-110 group-hover:bg-[var(--plum)] group-hover:text-white transition-all">
+                          <IconComp size={15} />
                         </div>
                         <span className="font-semibold text-xs text-[var(--ink)] block leading-none">
                           {step.title}
@@ -144,7 +144,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                   })}
                 </div>
 
-                <div className="rounded-xl border border-[var(--paper-deep)] bg-[var(--paper)] p-3 text-xs font-mono text-[var(--ink-faint)] flex items-center justify-between shadow-xs">
+                <div className="rounded-xl border border-[var(--paper-deep)] bg-[var(--paper)] p-2.5 text-xs font-mono text-[var(--ink-faint)] flex items-center justify-between shadow-xs">
                   <span className="flex items-center gap-2">
                     <Lock size={14} className="text-[var(--plum)]" />
                     Dual-Agent Adversarial Consensus
@@ -157,12 +157,12 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
           </div>
 
           {/* RIGHT SIDE: Enclosed Component Grid (5 Columns) */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-5">
             
             {/* 1. Platform Performance Stats (2x2 Grid) */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3.5">
               <AnimatedReveal direction="left" delay={150}>
-                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
                   <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--ink)] block">
                     4,850+
                   </span>
@@ -173,7 +173,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               </AnimatedReveal>
 
               <AnimatedReveal direction="left" delay={250}>
-                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
                   <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--hl-entails)] block">
                     94.2%
                   </span>
@@ -184,7 +184,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               </AnimatedReveal>
 
               <AnimatedReveal direction="left" delay={350}>
-                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
                   <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--ink)] block">
                     18,400+
                   </span>
@@ -195,7 +195,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               </AnimatedReveal>
 
               <AnimatedReveal direction="left" delay={450}>
-                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-1 hover:border-[var(--plum)] hover:shadow-md transition-all">
                   <span className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-[var(--plum-deep)] block">
                     &lt; 15s
                   </span>
@@ -207,12 +207,12 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
             </div>
 
             {/* 2. Platform Feature Cards Stack */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               <AnimatedReveal direction="up" delay={200}>
-                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-2 hover:border-[var(--plum)] hover:shadow-md transition-all">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-4.5 space-y-1.5 hover:border-[var(--plum)] hover:shadow-md transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--plum)] text-white shadow-sm shrink-0">
-                      <Layers size={18} />
+                    <div className="flex h-8.5 w-8.5 items-center justify-center rounded-xl bg-[var(--plum)] text-white shadow-sm shrink-0">
+                      <Layers size={17} />
                     </div>
                     <div>
                       <h3 className="font-semibold text-xs text-[var(--ink)]">Two Pens Highlighter</h3>
@@ -226,10 +226,10 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               </AnimatedReveal>
 
               <AnimatedReveal direction="up" delay={300}>
-                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-2 hover:border-[var(--plum)] hover:shadow-md transition-all">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-4.5 space-y-1.5 hover:border-[var(--plum)] hover:shadow-md transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--plum)] text-white shadow-sm shrink-0">
-                      <Zap size={18} />
+                    <div className="flex h-8.5 w-8.5 items-center justify-center rounded-xl bg-[var(--plum)] text-white shadow-sm shrink-0">
+                      <Zap size={17} />
                     </div>
                     <div>
                       <h3 className="font-semibold text-xs text-[var(--ink)]">Adversarial Red-Teaming</h3>
@@ -243,10 +243,10 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               </AnimatedReveal>
 
               <AnimatedReveal direction="up" delay={400}>
-                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-2 hover:border-[var(--plum)] hover:shadow-md transition-all">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-4.5 space-y-1.5 hover:border-[var(--plum)] hover:shadow-md transition-all">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--plum)] text-white shadow-sm shrink-0">
-                      <DollarSign size={18} />
+                    <div className="flex h-8.5 w-8.5 items-center justify-center rounded-xl bg-[var(--plum)] text-white shadow-sm shrink-0">
+                      <DollarSign size={17} />
                     </div>
                     <div>
                       <h3 className="font-semibold text-xs text-[var(--ink)]">Auditable Cost Ledger</h3>
@@ -262,7 +262,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
 
             {/* 3. One-Click Benchmark Paper Launchers */}
             <AnimatedReveal direction="up" delay={500}>
-              <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 space-y-3 shadow-sm">
+              <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-4.5 space-y-2.5 shadow-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-[var(--ink)]">
                     Benchmark Papers Quick Launch
@@ -270,7 +270,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                   <span className="text-[10px] font-mono text-[var(--plum-deep)] font-semibold">1-Click Verification</span>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-3 gap-2">
                   {[
                     { id: '2103.00020', name: 'OpenAI CLIP' },
                     { id: '1706.03762', name: 'Transformer' },
@@ -279,7 +279,7 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
                     <button
                       key={p.id}
                       onClick={() => onQuickStartArxiv(p.id)}
-                      className="group rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper)] p-3 text-center hover:border-[var(--plum)] hover:shadow-lg transition-all"
+                      className="group rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper)] p-2.5 text-center hover:border-[var(--plum)] hover:shadow-lg transition-all"
                     >
                       <span className="font-mono text-[10px] text-[var(--plum-deep)] font-semibold block">
                         arXiv:{p.id}

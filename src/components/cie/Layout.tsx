@@ -12,8 +12,8 @@ export function ManuscriptLayout({
 }) {
   return (
     <div
-      className={`mx-auto flex w-full flex-col gap-10 px-4 sm:px-6 md:px-8 pb-28 pt-8 md:flex-row md:items-start md:gap-12 md:pb-16 ${
-        fullWidth ? "max-w-full px-4 sm:px-8 md:px-12" : "max-w-[1160px]"
+      className={`mx-auto flex w-full flex-col gap-6 px-4 sm:px-6 md:px-8 pb-28 md:flex-row md:items-start md:gap-12 md:pb-16 ${
+        fullWidth ? "max-w-full px-4 sm:px-8 md:px-12 pt-3 md:pt-4" : "max-w-[1160px] pt-8"
       }`}
     >
       <div className="min-w-0 flex-1 w-full">
