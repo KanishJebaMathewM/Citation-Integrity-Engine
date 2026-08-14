@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ShieldCheck, ArrowRight, Sparkles, Cpu, CheckCircle2, AlertTriangle, Layers, Search, FileText, Zap, DollarSign, BookOpen, Activity, Lock, Globe, Database, Compass } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Sparkles, Cpu, CheckCircle2, AlertTriangle, Layers, Search, FileText, Zap, DollarSign, BookOpen, Activity, Lock, Globe, Database, Compass, Check, AlertCircle } from 'lucide-react';
 import { ManuscriptLayout, HighlighterTick } from '@/components/cie/Layout';
 import { AnimatedReveal } from '@/components/AnimatedReveal';
 
@@ -45,9 +45,9 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
           </div>
         </AnimatedReveal>
 
-        {/* 2. HERO BANNER BOX (FULL WIDTH) */}
+        {/* 2. HERO BANNER BOX (WITH ANIMATED RIGHT-SIDE INTERACTIVE GRAPHIC) */}
         <AnimatedReveal direction="up" delay={100}>
-          <div className="relative overflow-hidden rounded-3xl border border-[var(--paper-deep)] bg-gradient-to-br from-[var(--paper-dim)] via-[var(--paper)] to-[var(--plum-wash)]/60 p-8 md:p-12 shadow-xl space-y-6">
+          <div className="relative overflow-hidden rounded-3xl border border-[var(--paper-deep)] bg-gradient-to-br from-[var(--paper-dim)] via-[var(--paper)] to-[var(--plum-wash)]/60 p-8 md:p-10 shadow-xl space-y-6">
             
             {/* Scroll Parallax Background Orbs */}
             <div
@@ -59,40 +59,122 @@ export default function DashboardScreen({ onGetStarted, onQuickStartArxiv }: Das
               style={{ transform: `translateY(-${scrollY * 0.08}px)` }}
             />
 
-            <div className="relative z-10 max-w-4xl space-y-5">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-[var(--plum)]/30 bg-[var(--plum-wash)] px-4 py-1.5 text-xs font-mono font-medium text-[var(--plum-deep)] shadow-xs">
-                <Sparkles size={15} className="text-[var(--plum)] animate-pulse" />
-                <span>MULTIDISCIPLINARY MANUSCRIPT VERIFICATION ENGINE</span>
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+              {/* LEFT 7 COLS: Hero Content */}
+              <div className="lg:col-span-7 space-y-5">
+                <div className="inline-flex items-center gap-2.5 rounded-full border border-[var(--plum)]/30 bg-[var(--plum-wash)] px-4 py-1.5 text-xs font-mono font-medium text-[var(--plum-deep)] shadow-xs">
+                  <Sparkles size={15} className="text-[var(--plum)] animate-pulse" />
+                  <span>MULTIDISCIPLINARY MANUSCRIPT VERIFICATION ENGINE</span>
+                </div>
+
+                <h1 className="font-[var(--font-display)] text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-[var(--ink)] leading-[1.12]">
+                  Verify Every Citation with Independent Adversarial AI
+                  <HighlighterTick color="var(--plum)" />
+                </h1>
+
+                <p className="text-base md:text-lg text-[var(--ink-faint)] leading-relaxed">
+                  Automatically extract manuscript claims, fetch original cited literature across arXiv, PubMed Central, and Tavily, and evaluate entailment with dual Critic & Red-Team LLMs.
+                </p>
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap items-center gap-4 pt-3">
+                  <button
+                    onClick={onGetStarted}
+                    className="group flex items-center justify-center gap-3 rounded-2xl bg-[var(--plum)] px-8 py-4 text-base font-semibold text-white shadow-xl hover:bg-[var(--plum-deep)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  >
+                    <ShieldCheck size={22} />
+                    <span>Get Started — Verify Paper</span>
+                    <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform" />
+                  </button>
+
+                  <button
+                    onClick={() => onQuickStartArxiv('2103.00020')}
+                    className="flex items-center justify-center gap-2.5 rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper)] px-6 py-4 text-xs font-mono font-medium text-[var(--ink)] hover:border-[var(--plum)] hover:bg-[var(--paper-dim)] transition-all shadow-xs"
+                  >
+                    <BookOpen size={16} className="text-[var(--plum)]" />
+                    <span>Demo arXiv (2103.00020)</span>
+                  </button>
+                </div>
               </div>
 
-              <h1 className="font-[var(--font-display)] text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-[var(--ink)] leading-[1.12]">
-                Verify Every Citation with Independent Adversarial AI
-                <HighlighterTick color="var(--plum)" />
-              </h1>
+              {/* RIGHT 5 COLS: Rich Animated Interactive Agent Graphic */}
+              <div className="lg:col-span-5 relative">
+                <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper)]/90 backdrop-blur-md p-6 shadow-xl space-y-5 relative overflow-hidden">
+                  
+                  {/* Decorative Radar Lines */}
+                  <div className="absolute -right-12 -bottom-12 h-48 w-48 rounded-full border border-[var(--plum)]/20 animate-ping pointer-events-none" />
 
-              <p className="text-base md:text-lg text-[var(--ink-faint)] max-w-3xl leading-relaxed">
-                Automatically extract manuscript claims, fetch original cited literature across arXiv, PubMed Central, and Tavily, and evaluate entailment with dual Critic & Red-Team LLMs.
-              </p>
+                  {/* Header Badge */}
+                  <div className="flex items-center justify-between border-b border-[var(--paper-deep)] pb-3">
+                    <div className="flex items-center gap-2 text-xs font-mono font-semibold text-[var(--ink)]">
+                      <Cpu size={16} className="text-[var(--plum)]" />
+                      <span>Adversarial Consensus Hub</span>
+                    </div>
+                    <span className="rounded-full bg-[#3fb950]/15 px-2.5 py-0.5 font-mono text-[10px] font-bold text-[#2b7a36]">
+                      94.2% TRUST
+                    </span>
+                  </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-3">
-                <button
-                  onClick={onGetStarted}
-                  className="group flex items-center justify-center gap-3 rounded-2xl bg-[var(--plum)] px-8 py-4 text-base font-semibold text-white shadow-xl hover:bg-[var(--plum-deep)] hover:scale-[1.02] active:scale-[0.98] transition-all"
-                >
-                  <ShieldCheck size={22} />
-                  <span>Get Started — Verify Paper</span>
-                  <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform" />
-                </button>
+                  {/* Interactive Floating Agent Pills */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between rounded-2xl border border-[#3fb950]/40 bg-[#3fb950]/10 p-3 text-xs shadow-xs">
+                      <div className="flex items-center gap-2.5">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#3fb950] text-white">
+                          <Check size={14} />
+                        </div>
+                        <div>
+                          <span className="font-semibold text-[var(--ink)] block">GPT-4o Critic Agent</span>
+                          <span className="text-[10px] font-mono text-[var(--ink-faint)]">Passage Entailment Confirmed</span>
+                        </div>
+                      </div>
+                      <span className="font-mono text-[11px] font-bold text-[#2b7a36]">96% Match</span>
+                    </div>
 
-                <button
-                  onClick={() => onQuickStartArxiv('2103.00020')}
-                  className="flex items-center justify-center gap-2.5 rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper)] px-6 py-4 text-xs font-mono font-medium text-[var(--ink)] hover:border-[var(--plum)] hover:bg-[var(--paper-dim)] transition-all shadow-xs"
-                >
-                  <BookOpen size={16} className="text-[var(--plum)]" />
-                  <span>Demo arXiv (2103.00020)</span>
-                </button>
+                    <div className="flex items-center justify-between rounded-2xl border border-[var(--hl-partial)]/40 bg-[var(--hl-partial-wash)] p-3 text-xs shadow-xs">
+                      <div className="flex items-center gap-2.5">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--hl-partial)] text-white">
+                          <AlertTriangle size={14} />
+                        </div>
+                        <div>
+                          <span className="font-semibold text-[var(--ink)] block">Claude Red-Team Agent</span>
+                          <span className="text-[10px] font-mono text-[var(--ink-faint)]">Adversarial Caveat Check</span>
+                        </div>
+                      </div>
+                      <span className="font-mono text-[11px] font-bold text-[var(--hl-partial)]">Caveat Noted</span>
+                    </div>
+
+                    <div className="flex items-center justify-between rounded-2xl border border-[var(--plum)]/30 bg-[var(--plum-wash)] p-3 text-xs shadow-xs">
+                      <div className="flex items-center gap-2.5">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--plum)] text-white">
+                          <Layers size={14} />
+                        </div>
+                        <div>
+                          <span className="font-semibold text-[var(--ink)] block">Two Pens Stroke Resolver</span>
+                          <span className="text-[10px] font-mono text-[var(--ink-faint)]">Dual Green & Amber Highlighting</span>
+                        </div>
+                      </div>
+                      <span className="font-mono text-[11px] text-[var(--plum-deep)] font-semibold">Resolved</span>
+                    </div>
+                  </div>
+
+                  {/* Sample Highlighted Passage Preview */}
+                  <div className="rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-3.5 space-y-1.5 text-xs">
+                    <span className="text-[10px] font-mono text-[var(--ink-faint)] uppercase font-semibold block">
+                      Live Two-Pens Passage Resolution
+                    </span>
+                    <p className="font-serif italic text-[11px] leading-relaxed text-[var(--ink)]">
+                      "We show that pre-trained visual-language representations attain{' '}
+                      <span className="bg-[#eaf1e1] text-[#2b7a36] font-semibold px-1 rounded border-b-2 border-[#7fa65c]">
+                        76.2% zero-shot top-1 accuracy on ImageNet
+                      </span>
+                      , matching original supervised models."
+                    </p>
+                  </div>
+
+                </div>
               </div>
+
             </div>
 
           </div>
