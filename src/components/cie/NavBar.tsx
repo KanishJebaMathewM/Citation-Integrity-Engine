@@ -16,7 +16,7 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore }: Nav
     <header className="sticky top-0 z-40 border-b border-[var(--paper-deep)] bg-[var(--paper)]/90 backdrop-blur-md">
       <nav
         aria-label="Main"
-        className="mx-auto flex h-16 w-full max-w-[1160px] items-center justify-between px-5"
+        className="mx-auto flex h-16 w-full max-w-[1680px] items-center justify-between px-6 md:px-8"
       >
         <button 
           onClick={() => onNavigate("dashboard")}
