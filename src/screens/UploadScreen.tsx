@@ -71,32 +71,32 @@ export default function UploadScreen({ onRunStarted }: UploadScreenProps) {
             {/* Input Form Box */}
             <form onSubmit={handleSubmit} className="space-y-5 border-t border-[var(--paper-deep)] pt-6">
               
-              {/* Mode Tabs */}
-              <div className="flex gap-3">
+              {/* Mode Selector Segmented Control */}
+              <div className="inline-flex flex-wrap items-center gap-2 rounded-2xl border border-[var(--paper-deep)] bg-[var(--paper)] p-1.5 shadow-inner">
                 <button
                   type="button"
                   onClick={() => setInputType('pdf')}
-                  className={`flex items-center gap-2 rounded-xl px-4.5 py-2.5 text-xs font-semibold transition-all ${
+                  className={`inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-medium font-mono whitespace-nowrap transition-all duration-200 cursor-pointer ${
                     inputType === 'pdf'
-                      ? 'bg-[var(--plum)] text-[var(--paper)] shadow-md'
-                      : 'border border-[var(--paper-deep)] bg-[var(--paper)] text-[var(--ink-faint)] hover:text-[var(--ink)]'
+                      ? 'bg-[var(--plum-deep)] text-[var(--paper)] shadow-md font-semibold ring-1 ring-[var(--plum)]/20'
+                      : 'text-[var(--ink-faint)] hover:text-[var(--ink)] hover:bg-[var(--paper-wash)]'
                   }`}
                 >
-                  <FileText size={15} />
-                  Upload Manuscript PDF
+                  <FileText size={16} className="shrink-0 text-[var(--plum)]" />
+                  <span>Upload Manuscript PDF</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setInputType('arxiv_id')}
-                  className={`flex items-center gap-2 rounded-xl px-4.5 py-2.5 text-xs font-semibold transition-all ${
+                  className={`inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-medium font-mono whitespace-nowrap transition-all duration-200 cursor-pointer ${
                     inputType === 'arxiv_id'
-                      ? 'bg-[var(--plum)] text-[var(--paper)] shadow-md'
-                      : 'border border-[var(--paper-deep)] bg-[var(--paper)] text-[var(--ink-faint)] hover:text-[var(--ink)]'
+                      ? 'bg-[var(--plum-deep)] text-[var(--paper)] shadow-md font-semibold ring-1 ring-[var(--plum)]/20'
+                      : 'text-[var(--ink-faint)] hover:text-[var(--ink)] hover:bg-[var(--paper-wash)]'
                   }`}
                 >
-                  <Search size={15} />
-                  arXiv Paper ID
+                  <Search size={16} className="shrink-0 text-[var(--plum)]" />
+                  <span>arXiv Paper ID</span>
                 </button>
               </div>
 
