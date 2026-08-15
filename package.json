@@ -2,6 +2,7 @@
   "name": "citation-integrity-engine",
   "private": true,
   "version": "1.0.0",
+  "main": "server/index.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
