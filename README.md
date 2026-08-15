@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="public/favicon.svg" width="96" height="96" alt="Citation Integrity Engine Logo" />
-  <h1>Citation Integrity Engine</h1>
+  <img src="public/favicon.svg" width="100" height="100" alt="Citation Integrity Engine Logo" />
+  <h1>Citation Integrity Engine (CIE)</h1>
   <p><b>Multi-Agent Adversarial Verification Platform for Academic Manuscripts &amp; Citation Entailment Audit</b></p>
 
   <p>
@@ -17,28 +17,77 @@
 ## System Architecture
 
 ```mermaid
-flowchart LR
-    A[Manuscript Input<br/>PDF Upload / arXiv ID] -- POST /api/runs --> B[Express API Backend<br/>Port 8000]
-    
-    B -- Parse Text --> C[Node 01: Claim Extractor]
-    C -- Citation Markers --> D[Node 02: Evidence Retriever<br/>arXiv / PMC / Tavily]
-    
-    D -- Passage Evidence --> E[Node 03: Critic Judge<br/>GPT-4o Entailment]
-    D -- Passage Evidence --> F[Node 04: Red-Team Judge<br/>Claude Adversarial Audit]
-    
-    E -- Entailment Verdict --> G[Node 05: Two Pens Synthesizer]
-    F -- Caveat Verdict --> G
-    
-    G -- Trust Score &amp; Highlights --> H[React Dashboard UI<br/>Port 5173]
+flowchart TB
+    subgraph PHASE1 ["Phase 1: Manuscript Ingestion &amp; Claim Extraction"]
+        direction LR
+        A1["Input Manuscript<br/>(PDF File Upload or arXiv ID)"] --> A2["Node 01: Claim Extractor<br/>(Parses manuscript text &amp; citation markers [1], [2])"]
+    end
+
+    subgraph PHASE2 ["Phase 2: Multi-Source Evidence Retrieval"]
+        direction LR
+        B1["Node 02: Evidence Retriever"] --> B2["arXiv HTTPS API"]
+        B1 --> B3["PubMed Central (PMC)"]
+        B1 --> B4["Tavily Academic Search"]
+    end
+
+    subgraph PHASE3 ["Phase 3: Parallel Adversarial Cross-Examination"]
+        direction LR
+        C1["Node 03: Critic Judge (GPT-4o)<br/>Evaluates primary claim entailment"]
+        C2["Node 04: Red-Team Judge (Claude)<br/>Searches for scope overreach &amp; caveats"]
+    end
+
+    subgraph PHASE4 ["Phase 4: Synthesis &amp; Two Pens Stroke Resolution"]
+        direction LR
+        D1["Node 05: Two Pens Synthesizer<br/>Computes Trust Score (0–100%) &amp; Stroke Offsets"]
+    end
+
+    subgraph PHASE5 ["Phase 5: Interactive Audit UI &amp; Reports"]
+        direction LR
+        E1["Trust Report Dashboard"]
+        E2["Two Pens Passage Viewer"]
+        E3["Live Agent Trace Terminal"]
+        E4["Itemized Cost Ledger"]
+    end
+
+    PHASE1 --> PHASE2
+    PHASE2 --> PHASE3
+    PHASE3 --> PHASE4
+    PHASE4 --> PHASE5
+
+    classDef phase fill:#131024,stroke:#3b1c4e,stroke-width:2px,color:#f3f0f8;
+    classDef nodeMain fill:#1e1933,stroke:#8b5cf6,stroke-width:2px,color:#ffffff;
+    classDef nodeCritic fill:#072a14,stroke:#4ade80,stroke-width:2px,color:#ffffff;
+    classDef nodeRedTeam fill:#3b1900,stroke:#fbbf24,stroke-width:2px,color:#ffffff;
+    classDef nodeSynth fill:#2e1065,stroke:#a78bfa,stroke-width:2px,color:#ffffff;
+
+    class PHASE1,PHASE2,PHASE3,PHASE4,PHASE5 phase;
+    class A1,A2,B1,B2,B3,B4 nodeMain;
+    class C1 nodeCritic;
+    class C2 nodeRedTeam;
+    class D1 nodeSynth;
+    class E1,E2,E3,E4 nodeMain;
 ```
 
 ---
 
 ## Executive Summary
 
-Existing citation tools verify whether a reference string exists in a database, but fail to answer the primary integrity question: **Does the cited source text actually support the claim made about it?**
+Existing citation lookup tools verify whether a reference string exists in a database, but fail to answer the primary academic integrity question: **Does the cited source text actually support the claim made about it?**
 
-The Citation Integrity Engine (CIE) addresses this gap by executing a multi-agent adversarial protocol. Rather than relying on single-model summarization, CIE deploys independent Critic and Red-Team reviewer agents that evaluate claim entailment without cross-agent communication. This architecture eliminates single-model bias, isolates subtle claim overreach, and generates itemized audit trails.
+The Citation Integrity Engine (CIE) addresses this limitation by deploying an adversarial multi-agent state machine. Rather than relying on single-model summarization, CIE executes independent Critic and Red-Team reviewer agents that evaluate claim entailment without cross-agent communication. This architecture eliminates single-model anchoring bias, isolates unstated scope caveats, and generates itemized verification reports.
+
+---
+
+## Traditional Verification vs Citation Integrity Engine
+
+| Capability | Traditional Reference Checkers | Citation Integrity Engine |
+| :--- | :--- | :--- |
+| **Reference Existence** | Confirms URL / DOI exists | Confirms URL / DOI exists |
+| **Passage Entailment** | Not Supported | Evaluates direct claim support |
+| **Adversarial Evaluation** | Single-pass heuristic | Independent Critic vs Red-Team cross-examination |
+| **Visual Disagreement** | Binary match / no match | Two Pens offset stroke rendering |
+| **Cost Auditability** | Opaque pricing | Real-time itemized token &amp; USD cost ledger |
+| **State Inspection** | Closed black-box execution | Live agent trace event stream |
 
 ---
 
@@ -47,9 +96,9 @@ The Citation Integrity Engine (CIE) addresses this gap by executing a multi-agen
 * **Adversarial Dual-Review Protocol**: Deploys independent Critic (GPT-4o) and Red-Team (Claude) evaluation agents operating in parallel without cross-visibility.
 * **Two Pens Highlighter Methodology**: Computes visual stroke overlays on cited source passages. Single merged strokes denote consensus; offset dual strokes highlight reviewer disagreement.
 * **Live Agent Trace Streaming**: Streams real-time state machine transitions and execution logs to an interactive terminal interface.
-* **Transparent Token Cost Ledger**: Tracks exact prompt input/output token usage across every pipeline node with itemized USD cost accounting.
+* **Transparent Token Cost Ledger**: Tracks exact prompt input/output token usage across every pipeline node with itemized USD cost accounting (~$0.00085 per paper run).
 * **Dual Input Processing**: Accepts manuscript PDF file uploads or direct arXiv paper identifiers with automated passage extraction.
-* **Dynamic Theme & Responsiveness**: Theme-aware design system supporting deep velvet violet light mode and royal violet dark mode.
+* **Dynamic Design System**: Theme-aware interface supporting deep velvet violet light mode and royal violet dark mode.
 
 ---
 
@@ -57,9 +106,12 @@ The Citation Integrity Engine (CIE) addresses this gap by executing a multi-agen
 
 The core visual signature of the Citation Integrity Engine is the Two Pens stroke resolution model:
 
-* **Consensus (Entailed)**: When Critic and Red-Team agents agree that the cited passage fully supports the claim, a single green highlight stroke is drawn beneath the text passage.
-* **Disagreement (Partial / Flagged)**: When the Red-Team agent identifies unstated caveats, scope limitations, or hyperparameter dependencies, two offset strokes (green for Critic, amber for Red-Team) are rendered beneath the target passage text.
-* **Contradiction**: When the cited literature refutes or contradicts the claim, a red stroke indicator flags the item for manual author review.
+| Verdict Condition | Critic Agent | Red-Team Agent | Two Pens Rendered Stroke | Status Tag |
+| :--- | :--- | :--- | :--- | :--- |
+| **Consensus Entailed** | ENTAILS | ENTAILS | Single confidence stroke beneath passage | `RESOLVED` |
+| **Partial Support / Caveat** | ENTAILS | PARTIAL | Two offset strokes (Green Critic, Amber Red-Team) | `FLAGGED` |
+| **Direct Contradiction** | CONTRADICTS | CONTRADICTS | Red warning stroke indicator | `FLAGGED` |
+| **Missing Citation** | UNVERIFIABLE | UNVERIFIABLE | Dashed grey boundary line | `UNVERIFIABLE` |
 
 ---
 
@@ -206,12 +258,12 @@ Access the application in your browser at `http://localhost:5173`.
 
 The engine includes pre-configured benchmark evaluation papers:
 
-| arXiv Identifier | Paper Title | Evaluated Claims | Trust Score |
-| :--- | :--- | :---: | :---: |
-| **arXiv:1706.03762** | Attention Is All You Need (Vaswani et al.) | 4 Claims | **93%** |
-| **arXiv:2005.14165** | Language Models are Few-Shot Learners (GPT-3) | 3 Claims | **90%** |
-| **arXiv:2103.00020** | Learning Transferable Visual Models (CLIP) | 4 Claims | **92%** |
-| **arXiv:1810.04805** | BERT: Pre-training of Deep Bidirectional Transformers | 3 Claims | **95%** |
+| arXiv Identifier | Paper Title | Evaluated Claims | Trust Score | Primary Outcome |
+| :--- | :--- | :---: | :---: | :--- |
+| **arXiv:1706.03762** | Attention Is All You Need (Vaswani et al.) | 4 Claims | **93%** | High entailment across BLEU metrics |
+| **arXiv:2005.14165** | Language Models are Few-Shot Learners (GPT-3) | 3 Claims | **90%** | Entailed zero-shot scaling; RACE caveat flagged |
+| **arXiv:2103.00020** | Learning Transferable Visual Models (CLIP) | 4 Claims | **92%** | Zero-shot ImageNet confirmed; prompt engineering caveat |
+| **arXiv:1810.04805** | BERT: Pre-training of Deep Bidirectional Transformers | 3 Claims | **95%** | Complete entailment across GLUE benchmark |
 
 To test PDF uploading locally, use the generated manuscript located at `examples/Quantum_Neural_Architectures_Sample_Paper.pdf`.
 
