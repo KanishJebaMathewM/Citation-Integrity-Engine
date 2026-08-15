@@ -4,11 +4,15 @@
   <p><b>Multi-Agent Adversarial Verification Platform for Academic Manuscripts &amp; Citation Entailment Audit</b></p>
 
   <p>
+    <a href="https://citation-integrity-engine.vercel.app/"><img src="https://img.shields.io/badge/Live_App-Vercel-000000.svg?style=for-the-badge&amp;logo=vercel&amp;logoColor=white" alt="Live Web App" /></a>
+    <a href="https://citation-integrity-engine.onrender.com/"><img src="https://img.shields.io/badge/Backend_API-Render-46E3B7.svg?style=for-the-badge&amp;logo=render&amp;logoColor=black" alt="Render Backend API" /></a>
     <a href="https://github.com/KanishJebaMathewM/Citation-Integrity-Engine"><img src="https://img.shields.io/badge/Build-Passing-2e7d32.svg?style=for-the-badge" alt="Build Status" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-3b1c4e.svg?style=for-the-badge" alt="License" /></a>
-    <a href="server/index.js"><img src="https://img.shields.io/badge/Backend-Node.js%20%2F%20Express-8b5cf6.svg?style=for-the-badge" alt="Backend" /></a>
-    <a href="src/App.tsx"><img src="https://img.shields.io/badge/Frontend-React%2018%20%2F%20Vite-6d28d9.svg?style=for-the-badge" alt="Frontend" /></a>
-    <a href="#system-architecture"><img src="https://img.shields.io/badge/Architecture-Multi--Agent%20Adversarial-210a30.svg?style=for-the-badge" alt="Architecture" /></a>
+  </p>
+
+  <p>
+    <a href="https://citation-integrity-engine.vercel.app/"><b>Open Live Web Application</b></a> |
+    <a href="https://citation-integrity-engine.onrender.com/"><b>API Service Status</b></a>
   </p>
 </div>
 
@@ -93,6 +97,7 @@ The Citation Integrity Engine (CIE) addresses this limitation by deploying an ad
 
 ## Key Features & Capabilities
 
+* **Live Cloud Deployment**: Deployed globally with a React 18 SPA on Vercel and a Node.js Express backend on Render.
 * **Adversarial Dual-Review Protocol**: Deploys independent Critic (GPT-4o) and Red-Team (Claude) evaluation agents operating in parallel without cross-visibility.
 * **Two Pens Highlighter Methodology**: Computes visual stroke overlays on cited source passages. Single merged strokes denote consensus; offset dual strokes highlight reviewer disagreement.
 * **Live Agent Trace Streaming**: Streams real-time state machine transitions and execution logs to an interactive terminal interface.
@@ -155,6 +160,9 @@ Create a `.env` file in the root directory:
 ```env
 OPENAI_API_KEY=your_openai_api_key_here
 AGENT_ROUTER_API_KEY=your_agent_router_key_here
+OPENROUTER_API_KEY=your_openrouter_key_here
+TAVILY_API_KEY=your_tavily_key_here
+NCBI_API_KEY=your_ncbi_key_here
 MODEL_PROVIDER=openai
 BACKEND_PORT=8000
 FRONTEND_PORT=5173
@@ -176,11 +184,15 @@ Access the application in your browser at `http://localhost:5173`.
 
 ---
 
-## REST API Specification
+## Production Deployment & REST API Specification
+
+* **Live Web App**: `https://citation-integrity-engine.vercel.app/`
+* **Production API Base**: `https://citation-integrity-engine.onrender.com`
 
 ### 1. Create Verification Run
 
 * **Endpoint**: `POST /api/runs`
+* **URL**: `https://citation-integrity-engine.onrender.com/api/runs`
 * **Content-Type**: `multipart/form-data` or `application/json`
 * **Parameters**:
   * `input_type`: `'arxiv_id'` or `'pdf'`
@@ -198,6 +210,7 @@ Access the application in your browser at `http://localhost:5173`.
 ### 2. Fetch Run Status
 
 * **Endpoint**: `GET /api/runs/:run_id`
+* **URL**: `https://citation-integrity-engine.onrender.com/api/runs/run-ejf14h75`
 * **Response**:
 
 ```json
@@ -213,6 +226,7 @@ Access the application in your browser at `http://localhost:5173`.
 ### 3. Stream Live Agent Trace
 
 * **Endpoint**: `GET /api/runs/:run_id/trace`
+* **URL**: `https://citation-integrity-engine.onrender.com/api/runs/run-ejf14h75/trace`
 * **Response**:
 
 ```json
@@ -236,6 +250,7 @@ Access the application in your browser at `http://localhost:5173`.
 ### 4. Fetch Final Trust Report
 
 * **Endpoint**: `GET /api/reports/:run_id`
+* **URL**: `https://citation-integrity-engine.onrender.com/api/reports/run-ejf14h75`
 * **Response**:
 
 ```json
@@ -265,7 +280,7 @@ The engine includes pre-configured benchmark evaluation papers:
 | **arXiv:2103.00020** | Learning Transferable Visual Models (CLIP) | 4 Claims | **92%** | Zero-shot ImageNet confirmed; prompt engineering caveat |
 | **arXiv:1810.04805** | BERT: Pre-training of Deep Bidirectional Transformers | 3 Claims | **95%** | Complete entailment across GLUE benchmark |
 
-To test PDF uploading locally, use the generated manuscript located at `examples/Quantum_Neural_Architectures_Sample_Paper.pdf`.
+To test PDF uploading, use the sample manuscript located at `examples/Quantum_Neural_Architectures_Sample_Paper.pdf`.
 
 ---
 
@@ -276,6 +291,7 @@ Citation-Integrity-Engine/
 ├── docs/
 │   ├── DEMO_SCRIPT.md           # Live demonstration script
 │   ├── LIMITATIONS.md          # Known technical boundaries
+│   ├── RENDER_DEPLOYMENT.md    # Render deployment guide
 │   └── SUBMISSION_SUMMARY.md   # Hackathon submission overview
 ├── examples/
 │   ├── Quantum_Neural_Architectures_Sample_Paper.pdf
@@ -284,9 +300,10 @@ Citation-Integrity-Engine/
 │   └── favicon.svg              # Brand logo icon
 ├── server/
 │   ├── index.js                 # Express HTTP server & route handlers
+│   ├── package.json             # Subfolder deployment config
 │   └── pipeline.js              # Multi-agent state machine & LLM router
 ├── src/
-│   ├── api/client.ts            # Frontend API client
+│   ├── api/client.ts            # Frontend API client with VITE_API_BASE_URL
 │   ├── components/
 │   │   ├── cie/                 # Design system & UI components
 │   │   ├── AgentTraceViewer.tsx # Live terminal log viewer
@@ -294,12 +311,13 @@ Citation-Integrity-Engine/
 │   ├── lib/
 │   │   ├── run-store.ts         # React state store
 │   │   └── verdict.ts           # Score band & styling logic
-│   ├── screens/                 # Dashboard, Upload, Progress, Report screens
+│   ├── screens/ font-family     # Dashboard, Upload, Progress, Report screens
 │   ├── App.tsx                  # Main React SPA component
 │   └── styles.css               # Design system token definitions
 ├── index.html
 ├── package.json
-├── tailwind.config.js
+├── render.yaml                  # Render blueprint configuration
+├── vercel.json                  # Vercel SPA rewrite configuration
 └── vite.config.ts
 ```
 
