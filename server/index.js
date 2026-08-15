@@ -143,7 +143,7 @@ app.get('/api/reports/:run_id/cost', (req, res) => {
   });
 });
 
-const PORT = process.env.BACKEND_PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`🚀 Citation Integrity Engine (Node.js + Express) running on http://localhost:${PORT}`);
+const PORT = process.env.PORT || process.env.BACKEND_PORT || 8000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Citation Integrity Engine (Express Node.js Backend) running on port ${PORT}`);
 });
