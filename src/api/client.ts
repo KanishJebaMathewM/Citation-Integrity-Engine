@@ -80,9 +80,11 @@ export type CostBreakdownResponse = {
   total_cost_usd: number;
 };
 
+const PRODUCTION_BACKEND_URL = 'https://citation-integrity-engine.onrender.com';
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL
   ? `${import.meta.env.VITE_API_BASE_URL.replace(/\/$/, '')}/api`
-  : '/api';
+  : (import.meta.env.PROD ? `${PRODUCTION_BACKEND_URL}/api` : '/api');
 
 export async function createRun(formData: FormData): Promise<RunCreateResponse> {
   const res = await fetch(`${API_BASE}/runs`, {
