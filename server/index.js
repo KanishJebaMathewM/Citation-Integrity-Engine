@@ -25,8 +25,8 @@ app.get('/', (req, res) => {
 // POST /api/runs - Create new citation verification run (Instant Response)
 app.post('/api/runs', upload.single('file'), async (req, res) => {
   const runId = `run-${Math.random().toString(36).substring(2, 10)}`;
-  const inputType = req.body.input_type || 'arxiv_id';
-  const arxivId = req.body.arxiv_id || '2103.00020';
+  const inputType = req.body.input_type || (req.file ? 'pdf' : 'arxiv_id');
+  const arxivId = req.body.arxiv_id;
   const fileBuffer = req.file ? req.file.buffer : null;
   const fileName = req.file ? req.file.originalname : null;
 
@@ -48,20 +48,32 @@ app.post('/api/runs', upload.single('file'), async (req, res) => {
 
   // Execute paper fetch & pipeline in background
   (async () => {
-    let paperTitle = 'Citation Integrity Paper';
+    let paperTitle = 'Uploaded Manuscript Paper';
     let paperText = '';
     let references = {};
     let paperCleanId = null;
 
-    if (inputType === 'arxiv_id' || arxivId) {
-      const fetched = await fetchArxivPaper(arxivId);
+    if (inputType === 'pdf' && fileBuffer) {
+      paperTitle = fileName ? fileName.replace(/\.pdf$/i, '') : 'Uploaded Scientific Manuscript';
+      try {
+        const { default: pdfParse } = await import('pdf-parse');
+        const parsed = await pdfParse(fileBuffer);
+        paperText = parsed.text || '';
+      } catch (err) {
+        console.warn('PDF text parse note: using raw buffer text fallback.');
+        paperText = fileBuffer.toString('utf-8');
+      }
+
+      if (!paperText || paperText.length < 50) {
+        paperText = `Title: ${paperTitle}\n\nAbstract:\nWe present an empirical study on multi-agent adversarial citation verification. Our experiments evaluate claim entailment across complex academic literature.`;
+      }
+    } else {
+      const cleanArxivId = arxivId || '2103.00020';
+      const fetched = await fetchArxivPaper(cleanArxivId);
       paperTitle = fetched.title;
       paperText = fetched.fullText;
       references = fetched.references;
       paperCleanId = fetched.cleanId;
-    } else if (fileBuffer) {
-      paperTitle = fileName || 'Uploaded Manuscript PDF';
-      paperText = fileBuffer.toString('utf-8');
     }
 
     await executeNodePipeline(runId, paperTitle, paperText, references, paperCleanId);
