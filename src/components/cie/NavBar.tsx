@@ -16,7 +16,7 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore, hasRe
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--paper-deep)] bg-[var(--paper)]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[var(--paper-deep)] bg-[var(--paper)] shadow-xs">
       <nav
         aria-label="Main"
         className={`mx-auto flex h-16 w-full items-center justify-between px-6 md:px-12 ${
@@ -94,7 +94,7 @@ export function NavBar({ currentView, onNavigate, activeRunId, trustScore, hasRe
             >
               <BarChart2 size={15} />
               <span>Trust Report</span>
-              {trustScore !== undefined && trustScore !== null && (
+              {currentView === "report" && trustScore !== undefined && trustScore !== null && (
                 <span className="ml-1 rounded bg-[var(--paper-deep)] px-1.5 py-0.5 font-mono text-xs font-semibold text-[var(--ink)]">
                   {trustScore}%
                 </span>

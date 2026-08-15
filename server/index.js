@@ -51,18 +51,20 @@ app.post('/api/runs', upload.single('file'), async (req, res) => {
     let paperTitle = 'Citation Integrity Paper';
     let paperText = '';
     let references = {};
+    let paperCleanId = null;
 
     if (inputType === 'arxiv_id' || arxivId) {
       const fetched = await fetchArxivPaper(arxivId);
       paperTitle = fetched.title;
       paperText = fetched.fullText;
       references = fetched.references;
+      paperCleanId = fetched.cleanId;
     } else if (fileBuffer) {
       paperTitle = fileName || 'Uploaded Manuscript PDF';
       paperText = fileBuffer.toString('utf-8');
     }
 
-    await executeNodePipeline(runId, paperTitle, paperText, references);
+    await executeNodePipeline(runId, paperTitle, paperText, references, paperCleanId);
   })().catch((err) => {
     console.error(`Pipeline execution failed for ${runId}:`, err);
   });

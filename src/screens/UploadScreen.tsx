@@ -193,7 +193,7 @@ export default function UploadScreen({ onRunStarted }: UploadScreenProps) {
           </div>
 
           {/* RIGHT 5 COLS: Pipeline Specifications & Methodology */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-5">
+          <div className="lg:col-span-5 space-y-4">
             
             {/* Verification Pipeline Card */}
             <div className="rounded-3xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-6 space-y-4 shadow-xs">
