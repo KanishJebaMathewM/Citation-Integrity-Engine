@@ -1,36 +1,40 @@
-# Citation Integrity Engine (CIE)
+<div align="center">
+  <img src="public/favicon.svg" width="96" height="96" alt="Citation Integrity Engine Logo" />
+  <h1>Citation Integrity Engine</h1>
+  <p><b>Multi-Agent Adversarial Verification Platform for Academic Manuscripts &amp; Citation Entailment Audit</b></p>
 
-[![Build Status](https://img.shields.io/badge/Build-Passing-2e7d32.svg?style=for-the-badge)](https://github.com/KanishJebaMathewM/Citation-Integrity-Engine)
-[![License](https://img.shields.io/badge/License-MIT-3b1c4e.svg?style=for-the-badge)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Backend-Node.js%20%2F%20Express-8b5cf6.svg?style=for-the-badge)](server/index.js)
-[![React](https://img.shields.io/badge/Frontend-React%2018%20%2F%20Vite-6d28d9.svg?style=for-the-badge)](src/App.tsx)
-[![Architecture](https://img.shields.io/badge/Architecture-Multi--Agent%20Adversarial-210a30.svg?style=for-the-badge)](#architecture-overview)
-
-Multi-Agent Adversarial Verification Platform for Academic Manuscripts & Citation Entailment Audit.
+  <p>
+    <a href="https://github.com/KanishJebaMathewM/Citation-Integrity-Engine"><img src="https://img.shields.io/badge/Build-Passing-2e7d32.svg?style=for-the-badge" alt="Build Status" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-3b1c4e.svg?style=for-the-badge" alt="License" /></a>
+    <a href="server/index.js"><img src="https://img.shields.io/badge/Backend-Node.js%20%2F%20Express-8b5cf6.svg?style=for-the-badge" alt="Backend" /></a>
+    <a href="src/App.tsx"><img src="https://img.shields.io/badge/Frontend-React%2018%20%2F%20Vite-6d28d9.svg?style=for-the-badge" alt="Frontend" /></a>
+    <a href="#system-architecture"><img src="https://img.shields.io/badge/Architecture-Multi--Agent%20Adversarial-210a30.svg?style=for-the-badge" alt="Architecture" /></a>
+  </p>
+</div>
 
 ---
 
-## Architecture Overview
+## System Architecture
 
 ```mermaid
 flowchart TD
-    subgraph InputLayer ["Input Layer"]
+    subgraph Input ["Input Layer"]
         A[Manuscript PDF Upload / arXiv ID]
     end
 
-    subgraph StateMachine ["Multi-Agent State Machine Execution Pipeline"]
-        B[Node 01: Claim Extractor<br/>Parses Citations &amp; Isolate Claims]
+    subgraph StateMachine ["LangGraph 5-Node State Machine Execution Pipeline"]
+        B[Node 01: Claim Extractor<br/>Parses Citations &amp; Isolates Claims]
         C[Node 02: Evidence Retriever<br/>arXiv API / PubMed Central / Tavily]
         
-        subgraph ParallelConsensus ["Parallel Adversarial Consensus"]
+        subgraph Consensus ["Parallel Adversarial Consensus"]
             D[Node 03: Critic Judge<br/>GPT-4o Entailment Evaluation]
             E[Node 04: Red-Team Judge<br/>Claude Adversarial Scope Audit]
         end
         
-        F[Node 05: Two Pens Synthesizer &amp; Stroke Resolver<br/>Computes Trust Score 0–100% &amp; Stroke Offsets]
+        F[Node 05: Two Pens Synthesizer &amp; Stroke Resolver<br/>Computes Trust Score 0-100% &amp; Highlight Offsets]
     end
 
-    subgraph PresentationLayer ["Presentation Layer (React Frontend)"]
+    subgraph Presentation ["Presentation Layer"]
         G[Interactive Trust Score Dashboard]
         H[Two Pens Highlighter Passage View]
         I[Live Agent Trace Stream Terminal]
@@ -47,16 +51,6 @@ flowchart TD
     F --> H
     F --> I
     F --> J
-
-    classDef primary fill:#1e1933,stroke:#8b5cf6,stroke-width:2px,color:#f3f0f8;
-    classDef critic fill:#072a14,stroke:#4ade80,stroke-width:2px,color:#f3f0f8;
-    classDef redteam fill:#3b1900,stroke:#fbbf24,stroke-width:2px,color:#f3f0f8;
-    classDef synth fill:#2e1065,stroke:#8b5cf6,stroke-width:2px,color:#f3f0f8;
-
-    class A,B,C primary;
-    class D critic;
-    class E redteam;
-    class F synth;
 ```
 
 ---
@@ -256,7 +250,7 @@ Citation-Integrity-Engine/
 │   ├── Quantum_Neural_Architectures_Sample_Paper.pdf
 │   └── sample_run_output.json   # Full sample JSON audit export
 ├── public/
-│   └── favicon.svg              # Brand icon
+│   └── favicon.svg              # Brand logo icon
 ├── server/
 │   ├── index.js                 # Express HTTP server & route handlers
 │   └── pipeline.js              # Multi-agent state machine & LLM router
