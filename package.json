@@ -11,7 +11,7 @@
     "dev": "vite",
     "server": "node server/index.js",
     "start": "node server/index.js",
-    "postinstall": "chmod +x index.js index start.sh || true",
+    "postinstall": "mkdir -p node_modules/.bin && cp index.js node_modules/.bin/index.js && chmod +x node_modules/.bin/index.js index.js index start.sh || true",
     "build": "vite build",
     "preview": "vite preview"
   },
