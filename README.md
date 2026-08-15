@@ -17,40 +17,19 @@
 ## System Architecture
 
 ```mermaid
-flowchart TD
-    subgraph Input ["Input Layer"]
-        A[Manuscript PDF Upload / arXiv ID]
-    end
-
-    subgraph StateMachine ["LangGraph 5-Node State Machine Execution Pipeline"]
-        B[Node 01: Claim Extractor<br/>Parses Citations &amp; Isolates Claims]
-        C[Node 02: Evidence Retriever<br/>arXiv API / PubMed Central / Tavily]
-        
-        subgraph Consensus ["Parallel Adversarial Consensus"]
-            D[Node 03: Critic Judge<br/>GPT-4o Entailment Evaluation]
-            E[Node 04: Red-Team Judge<br/>Claude Adversarial Scope Audit]
-        end
-        
-        F[Node 05: Two Pens Synthesizer &amp; Stroke Resolver<br/>Computes Trust Score 0-100% &amp; Highlight Offsets]
-    end
-
-    subgraph Presentation ["Presentation Layer"]
-        G[Interactive Trust Score Dashboard]
-        H[Two Pens Highlighter Passage View]
-        I[Live Agent Trace Stream Terminal]
-        J[Itemized Token &amp; USD Cost Ledger]
-    end
-
-    A --> B
-    B --> C
-    C --> D
-    C --> E
-    D --> F
-    E --> F
-    F --> G
-    F --> H
-    F --> I
-    F --> J
+flowchart LR
+    A[Manuscript Input<br/>PDF Upload / arXiv ID] -- POST /api/runs --> B[Express API Backend<br/>Port 8000]
+    
+    B -- Parse Text --> C[Node 01: Claim Extractor]
+    C -- Citation Markers --> D[Node 02: Evidence Retriever<br/>arXiv / PMC / Tavily]
+    
+    D -- Passage Evidence --> E[Node 03: Critic Judge<br/>GPT-4o Entailment]
+    D -- Passage Evidence --> F[Node 04: Red-Team Judge<br/>Claude Adversarial Audit]
+    
+    E -- Entailment Verdict --> G[Node 05: Two Pens Synthesizer]
+    F -- Caveat Verdict --> G
+    
+    G -- Trust Score &amp; Highlights --> H[React Dashboard UI<br/>Port 5173]
 ```
 
 ---
