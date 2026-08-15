@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Report, ClaimResult } from '@/api/client';
-import { ManuscriptLayout, MarginRail, RailSection, PageTurn, Stagger } from '@/components/cie/Layout';
+import { ManuscriptLayout, RailSection, PageTurn, Stagger } from '@/components/cie/Layout';
 import { TrustScoreGauge } from '@/components/cie/TrustScoreGauge';
 import { ClaimCard } from '@/components/cie/ClaimCard';
 import ClaimDetailModal from './ClaimDetailModal';
@@ -67,7 +67,7 @@ export default function TrustReportScreen({ report, onShowCost, onReset }: Trust
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--ink-faint)]">Flagged (Contradicts/Partial):</span>
-                <span className="font-mono font-semibold text-[var(--hl-contradicts)]">{report.flagged_count || 0}</span>
+                <span className="font-mono font-semibold text-[var(--hl-partial)]">{report.flagged_count || 0}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--ink-faint)]">Unverifiable:</span>
@@ -113,15 +113,15 @@ export default function TrustReportScreen({ report, onShowCost, onReset }: Trust
       }
     >
       <PageTurn k={report.run_id}>
-        <div className="space-y-8">
+        <div className="space-y-8 min-w-0 flex-1">
           {/* Paper Title Header */}
-          <div>
-            <div className="flex items-center gap-2 font-mono text-xs text-[var(--ink-faint)]">
+          <div className="space-y-2 break-words max-w-full">
+            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[var(--ink-faint)]">
               <span>RUN ID: {report.run_id}</span>
               <span>·</span>
               <span>PAPER ID: {report.paper_id}</span>
             </div>
-            <h1 className="mt-2 font-[var(--font-display)] text-3xl md:text-4xl font-semibold tracking-tight text-[var(--ink)] leading-snug">
+            <h1 className="font-[var(--font-display)] text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-[var(--ink)] leading-snug break-words max-w-full">
               {report.paper_title || "Manuscript Citation Verification"}
             </h1>
           </div>

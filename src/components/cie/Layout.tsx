@@ -13,12 +13,16 @@ export function ManuscriptLayout({
   return (
     <div
       className={`mx-auto w-full pb-16 ${
-        fullWidth ? "max-w-full px-6 md:px-10 pt-4" : "max-w-[1160px] px-4 sm:px-6 pt-8"
+        fullWidth
+          ? "max-w-full px-6 md:px-10 pt-4"
+          : rail
+            ? "max-w-[1440px] px-6 md:px-10 pt-6"
+            : "max-w-[1160px] px-4 sm:px-6 pt-8"
       }`}
     >
-      <div className={`flex flex-col ${rail ? 'md:flex-row md:gap-8' : ''}`}>
+      <div className={`flex flex-col ${rail ? 'md:flex-row md:items-start md:gap-8' : ''}`}>
         <div className="min-w-0 flex-1 w-full">
-          <div className={fullWidth ? "manuscript-full" : "manuscript"}>{children}</div>
+          <div className={fullWidth || rail ? "manuscript-full" : "manuscript"}>{children}</div>
         </div>
         {rail && <MarginRail>{rail}</MarginRail>}
       </div>
@@ -29,7 +33,7 @@ export function ManuscriptLayout({
 export function MarginRail({ children }: { children: ReactNode }) {
   return (
     <aside className="w-full shrink-0 mt-8 md:mt-0 md:sticky md:top-24 md:w-[280px] md:self-start">
-      <div className="rounded-xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5">
+      <div className="rounded-xl border border-[var(--paper-deep)] bg-[var(--paper-dim)] p-5 shadow-sm">
         {children}
       </div>
     </aside>
