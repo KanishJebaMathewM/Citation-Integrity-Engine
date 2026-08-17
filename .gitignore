@@ -8,3 +8,4 @@ dist/
 venv/
 *.pdf
 !tests/fixtures/sample_paper.pdf
+!examples/*.pdf
